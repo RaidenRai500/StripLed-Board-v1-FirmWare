@@ -1,0 +1,2 @@
+../Core/Src/Drivers/CC_SERIAL.c:14:6:HAL_UART_RxCpltCallback	1
+../Core/Src/Drivers/CC_SERIAL.c:27:6:CC_SERIAL_SendData	1

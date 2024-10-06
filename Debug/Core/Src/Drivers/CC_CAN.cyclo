@@ -1,0 +1,4 @@
+../Core/Src/Drivers/CC_CAN.c:19:6:CC_CAN_SetAddress	1
+../Core/Src/Drivers/CC_CAN.c:24:6:CC_CAN_SendMessage	1
+../Core/Src/Drivers/CC_CAN.c:38:6:CC_CAN_Init	1
+../Core/Src/Drivers/CC_CAN.c:66:6:HAL_FDCAN_RxFifo0Callback	4

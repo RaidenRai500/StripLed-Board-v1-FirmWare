@@ -1,0 +1,4 @@
+../Core/Src/Application/CC_LEDPWM.c:18:6:CC_LEDPWM_Init	2
+../Core/Src/Application/CC_LEDPWM.c:35:6:CC_LEDPWM_CntrCalculus	2
+../Core/Src/Application/CC_LEDPWM.c:52:6:CC_LEDPWM_IncreaseCntr	2
+../Core/Src/Application/CC_LEDPWM.c:62:6:CC_LEDPWM_UpdatePwms	5

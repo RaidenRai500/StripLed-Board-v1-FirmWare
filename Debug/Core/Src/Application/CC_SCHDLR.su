@@ -1,0 +1,5 @@
+../Core/Src/Application/CC_SCHDLR.c:18:6:CC_SCHDLR_Scheduler	40	static
+../Core/Src/Application/CC_SCHDLR.c:48:6:CC_SCHDLR_CheckForSchedulerOverflow	16	static
+../Core/Src/Application/CC_SCHDLR.c:58:6:CC_SCHDLR_SchedulerUsage	40	static
+../Core/Src/Application/CC_SCHDLR.c:80:6:CC_SCHDLR_InitFastScheduler	24	static
+../Core/Src/Application/CC_SCHDLR.c:166:6:CC_SCHDLR_InitSlowScheduler	48	static

@@ -1,0 +1,8 @@
+../Core/Src/MiddleLayer/CC_ML.c:95:6:CC_ML_SendMessageCAN	40	static
+../Core/Src/MiddleLayer/CC_ML.c:108:6:CC_ML_GetDipSwitch4pos	32	static
+../Core/Src/MiddleLayer/CC_ML.c:116:6:CC_ML_UpdateIdSysFromDipSwitch	32	static
+../Core/Src/MiddleLayer/CC_ML.c:125:10:CC_ML_GetTimerElapsedCounts	16	static
+../Core/Src/MiddleLayer/CC_ML.c:130:10:CC_ML_GetTimerLimitCounts	16	static
+../Core/Src/MiddleLayer/CC_ML.c:136:6:CC_ML_SendUARTString	72	dynamic
+../Core/Src/MiddleLayer/CC_ML.c:150:6:CC_ML_ClearUARTRxData	8	static
+../Core/Src/MiddleLayer/CC_ML.c:156:6:CC_ML_LedBoardToggle	8	static

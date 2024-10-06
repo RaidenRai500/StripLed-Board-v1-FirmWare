@@ -1,0 +1,4 @@
+../Core/Src/Drivers/CC_DIPSW.c:15:7:CC_DIPSW_GetDipSwitch1pos	16	static
+../Core/Src/Drivers/CC_DIPSW.c:21:7:CC_DIPSW_GetDipSwitch2pos	16	static
+../Core/Src/Drivers/CC_DIPSW.c:28:7:CC_DIPSW_GetDipSwitch3pos	16	static
+../Core/Src/Drivers/CC_DIPSW.c:36:7:CC_DIPSW_GetDipSwitch4pos	16	static
