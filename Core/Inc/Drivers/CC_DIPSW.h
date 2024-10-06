@@ -7,8 +7,8 @@
 #ifndef INC_CC_DIPSW_H_
 	#define INC_CC_DIPSW_H_
 	//Headers
+	#include "stm32g0xx_hal.h"		//ST's HAL definitions
 	#include "main.h"
-	#include "stm32g0xx_it.h"
 
 	//Constants
 

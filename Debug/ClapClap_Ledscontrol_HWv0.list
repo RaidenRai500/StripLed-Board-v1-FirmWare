@@ -3210,19 +3210,19 @@ void CC_SM_UsartSM(void* param1, void* param2, void* param3)
  8001618:	bd80      	pop	{r7, pc}
 	...
 
-0800161c <CC_CAN_SetAddress>:
+0800161c <CC_CAN_SetRxAddress>:
 FDCAN_TxHeaderTypeDef CC_CAN_TxHeader;
 uint32_t CC_CAN_RxAdress;
 
 //Functions
-void CC_CAN_SetAddress(const uint32_t new_adress)
+void CC_CAN_SetRxAddress(const uint32_t new_adress)
 {
  800161c:	b580      	push	{r7, lr}
  800161e:	b082      	sub	sp, #8
  8001620:	af00      	add	r7, sp, #0
  8001622:	6078      	str	r0, [r7, #4]
 	CC_CAN_RxAdress=new_adress;
- 8001624:	4b03      	ldr	r3, [pc, #12]	@ (8001634 <CC_CAN_SetAddress+0x18>)
+ 8001624:	4b03      	ldr	r3, [pc, #12]	@ (8001634 <CC_CAN_SetRxAddress+0x18>)
  8001626:	687a      	ldr	r2, [r7, #4]
  8001628:	601a      	str	r2, [r3, #0]
 }
@@ -5068,10 +5068,10 @@ int main(void)
  80020a0:	4b1b      	ldr	r3, [pc, #108]	@ (8002110 <main+0xa0>)
  80020a2:	0018      	movs	r0, r3
  80020a4:	f7fe fd92 	bl	8000bcc <CC_APP_SetBoardParam>
-  CC_CAN_SetAddress(CC_CAN_RX_ADRESS);			//Static fixed address for CAN
+  CC_CAN_SetRxAddress(CC_CAN_RX_ADRESS);			//Static fixed address for CAN
  80020a8:	4b1a      	ldr	r3, [pc, #104]	@ (8002114 <main+0xa4>)
  80020aa:	0018      	movs	r0, r3
- 80020ac:	f7ff fab6 	bl	800161c <CC_CAN_SetAddress>
+ 80020ac:	f7ff fab6 	bl	800161c <CC_CAN_SetRxAddress>
 
   //Soft-PWM timer generation initialization
   HAL_TIM_Base_Init(&CC_ML_PWM_GEN_BASETIME);

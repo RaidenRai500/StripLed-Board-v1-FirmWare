@@ -8,7 +8,6 @@
 #ifndef INC_APPLICATION_CC_LEDPWM_H_
 	#define INC_APPLICATION_CC_LEDPWM_H_
 	//Headers
-	#include "stm32g0xx_hal.h"		//ST's HAL definitions
 	#include "MiddleLayer\CC_ML.h"	//Definitions to work with drivers
 
 	//Constants

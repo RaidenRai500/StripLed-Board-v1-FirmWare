@@ -105,29 +105,18 @@ int main(void)
   MX_TIM6_Init();
   MX_TIM7_Init();
   /* USER CODE BEGIN 2 */
-  //Strip leds header initialization
-  CC_LED_InitStrips();
-  CC_LEDPWM_Init(&CC_LEDPWM_Strip);
-  CC_APP_SetBoardParam(&CC_APP_BoardData);
-  CC_CAN_SetAddress(CC_CAN_RX_ADRESS);			//Static fixed address for CAN
-
-  //Soft-PWM timer generation initialization
-  HAL_TIM_Base_Init(&CC_ML_PWM_GEN_BASETIME);
-  HAL_TIM_Base_Start_IT(&CC_ML_PWM_GEN_BASETIME);
-
-  //Scheduler timer initialization
+  CC_APP_SetBoardParam(&CC_APP_BoardData);	//Board's characteristics and parameters setting
+  CC_LEDPWM_Init(&CC_LEDPWM_Strip);	  		//Strip-leds handler initialization
+  CC_ML_SoftPwmBasetimeandIntrrptsInit();	//Soft-PWM timer generation initialization
+  //Schedulers initialization
   CC_SCHDLR_InitFastScheduler(&CC_SCHDLR_FastScheduler);
   CC_SCHDLR_InitSlowScheduler(&CC_SCHDLR_SlowScheduler);
-  HAL_TIM_Base_Init(&CC_ML_SCHEDULER_BASETIME_HANDLER);
-  HAL_TIM_Base_Start_IT(&CC_ML_SCHEDULER_BASETIME_HANDLER);
+  CC_ML_SchedulerInit();
   //Serial receive initialization
-  HAL_UART_Receive_IT(&CC_ML_SERIAL_DEBUG_HANDLER, CC_SERIAL_RxData, 1);
-  //CAN initialization
-  CC_CAN_Init(&CC_CAN_TxHeader);
-  HAL_FDCAN_Start(&CC_ML_PERIPHERALS_CAN);													//Starting CAN module
-  HAL_FDCAN_ActivateNotification(&CC_ML_PERIPHERALS_CAN, FDCAN_IT_RX_FIFO0_NEW_MESSAGE, 0);	//When a message passes the filtering it triggers something
-
-
+  CC_ML_EnableRxIntUART();
+  CC_ML_InitCAN();							//CAN initialization
+  CC_ML_StartCAN();
+  CC_ML_EnableCANInt();
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -137,7 +126,6 @@ int main(void)
     /* USER CODE END WHILE */
 
     /* USER CODE BEGIN 3 */
-//	  CC_LED_UpdateStrips();
   }
   /* USER CODE END 3 */
 }

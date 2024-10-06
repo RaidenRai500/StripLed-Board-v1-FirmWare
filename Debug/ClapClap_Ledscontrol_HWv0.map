@@ -5303,9 +5303,9 @@ LOAD C:/ST/STM32CubeIDE_1.16.0/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
                 0x08001604       0x16 ./Core/Src/Drivers/CC_BOARDLED.o
                 0x08001604                CC_BOARDLED_Led1Toggle
  *fill*         0x0800161a        0x2 
- .text.CC_CAN_SetAddress
+ .text.CC_CAN_SetRxAddress
                 0x0800161c       0x1c ./Core/Src/Drivers/CC_CAN.o
-                0x0800161c                CC_CAN_SetAddress
+                0x0800161c                CC_CAN_SetRxAddress
  .text.CC_CAN_SendMessage
                 0x08001638       0x20 ./Core/Src/Drivers/CC_CAN.o
                 0x08001638                CC_CAN_SendMessage

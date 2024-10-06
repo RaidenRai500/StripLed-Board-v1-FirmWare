@@ -31,3 +31,31 @@ uint32_t CC_TMR_GetLimitCounts(const TIM_HandleTypeDef* const htim)
 {
 	return __HAL_TIM_GET_AUTORELOAD(htim);
 }
+
+inline void CC_TMR_TimerInit(TIM_HandleTypeDef* const htim)
+{
+	HAL_TIM_Base_Init(htim);
+}
+
+inline void CC_TMR_TimerStartAndInterruptsGen(TIM_HandleTypeDef* const htim)
+{
+	HAL_TIM_Base_Start_IT(htim);
+}
+
+inline void CC_TMR_StartTimer(TIM_HandleTypeDef* const htim)
+{
+	HAL_TIM_Base_Start(htim);
+}
+
+inline void CC_TMR_StopTimer(TIM_HandleTypeDef* const htim)
+{
+	HAL_TIM_Base_Stop(htim);
+}
+
+inline void CC_TMR_SetTimer(TIM_HandleTypeDef* const htim, uint32_t counts)
+{
+	__HAL_TIM_SET_COUNTER(htim, counts);
+}
+
+
+

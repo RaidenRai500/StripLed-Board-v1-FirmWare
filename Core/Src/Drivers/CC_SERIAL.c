@@ -33,3 +33,7 @@ void CC_SERIAL_SendData	(
     HAL_UART_Transmit(huart, tx_buffer, Size, CC_SERIAL_TX_TIMEOUT);	//Send the string via UART
 }
 
+inline void CC_SERIAL_EnableRxIntUART(UART_HandleTypeDef *huart, uint8_t *pData, uint16_t Size)
+{
+	HAL_UART_Receive_IT(huart, pData, Size);
+}

@@ -8,8 +8,8 @@
 #ifndef INC_CC_BOARDLED_H_
 	#define INC_CC_BOARDLED_H_
 	//Headers
-	#include "main.h"
-	#include "stm32g0xx_it.h"
+	#include "stm32g0xx_hal.h"		//ST's HAL definitions
+	#include "main.h"				//Pinout mapping definitions
 
 	//Constants
 	#define CC_BOARDLED_ON 1

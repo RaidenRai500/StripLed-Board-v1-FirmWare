@@ -1,2 +1,3 @@
 ../Core/Src/Drivers/CC_SERIAL.c:14:6:HAL_UART_RxCpltCallback	16	static
 ../Core/Src/Drivers/CC_SERIAL.c:27:6:CC_SERIAL_SendData	24	static
+../Core/Src/Drivers/CC_SERIAL.c:36:13:CC_SERIAL_EnableRxIntUART	24	static

@@ -13,10 +13,20 @@ uint8_t CC_CAN_RxData[CC_CAN_RXDATALENGHT];
 uint8_t CC_CAN_TxData[CC_CAN_TXDATALENGHT];
 FDCAN_RxHeaderTypeDef CC_CAN_RxHeader;																//CAN receiver header
 FDCAN_TxHeaderTypeDef CC_CAN_TxHeader;
-uint32_t CC_CAN_RxAdress;
+uint32_t CC_CAN_RxAdress=CC_CAN_RX_ADRESS;
 
 //Functions
-void CC_CAN_SetAddress(const uint32_t new_adress)
+inline void CC_CAN_EnableCANInt(FDCAN_HandleTypeDef *hfdcan, uint32_t ActiveITs,uint32_t BufferIndexes)
+{
+	HAL_FDCAN_ActivateNotification(hfdcan, ActiveITs, BufferIndexes);
+}
+
+inline void CC_CAN_StartCAN(FDCAN_HandleTypeDef *hfdcan)
+{
+	HAL_FDCAN_Start(hfdcan);
+}
+
+void CC_CAN_SetRxAddress(const uint32_t new_adress)
 {
 	CC_CAN_RxAdress=new_adress;
 }

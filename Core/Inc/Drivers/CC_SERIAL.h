@@ -8,8 +8,8 @@
 #ifndef INC_CC_SERIAL_H_
 	#define INC_CC_SERIAL_H_
 	//Headers
-	#include "main.h"
-	#include "stm32g0xx_it.h"
+	#include "stm32g0xx_hal.h"		//ST's HAL definitions
+	#include "main.h"				//Pinout mapping definitions
 
 	//Constants
 	#define CC_SERIAL_RX_BUFF_LENGTH 	1	//Rx buffer length in bytes
@@ -25,6 +25,8 @@
 	//Function Prototypes
 	void HAL_UART_RxCpltCallback(UART_HandleTypeDef*);
 	void CC_SERIAL_SendData(UART_HandleTypeDef*, const uint8_t*, const uint16_t);
+	void CC_SERIAL_EnableRxIntUART(UART_HandleTypeDef*, uint8_t*, uint16_t);
+
 
 #endif /* INC_CC_SERIAL_H_ */
 

@@ -8,7 +8,6 @@
 #ifndef INC_CC_SCHDLR_H_
 	#define INC_CC_SCHDLR_H_
 	//Headers
-	#include "stm32g0xx_hal.h"		//ST's HAL definitions
 	#include "MiddleLayer\CC_ML.h"	//Definitions to work with drivers
 
 	//Constants

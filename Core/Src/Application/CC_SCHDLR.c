@@ -44,7 +44,6 @@ void CC_SCHDLR_Scheduler(
 	CC_SCHDLR_CheckForSchedulerOverflow(pSchedulerData);
 }
 
-//CC_TMR
 void CC_SCHDLR_CheckForSchedulerOverflow(CC_SCHDLR_Scheduler_t* const pSchedulerData)
 //It is checked if an interrupt happened while ISR is attended.
 //It should be used inside the timer's ISR.
@@ -83,29 +82,21 @@ void CC_SCHDLR_InitFastScheduler(CC_SCHDLR_Scheduler_t* const data)
 //Void pointers to be able to launch different kinds of functions.
 {
 	void (*pfunction) (void*, void*, void*);		//Pointer to void function with 3 void pointers as a parameters
-
-	CC_SCHDLR_Scheduler_t* 	pNestedScheduler;		//Pointer to nested scheduler data
-//	CC_LEDPWM_SoftPwm_t* 	pCC_LEDPWM_SoftPwm;		//Pointer to strip leds control data
+	CC_SCHDLR_Scheduler_t* pNestedScheduler;	//Pointer to nested scheduler data
 
 	data->TaskOngoing=0;
 	data->IntCount=0;
 	data->MissIntCnt=0;
 	data->BaseTimems=CC_SCHDLR_BASE_TIME;
 
-//	pfunction=&CC_LEDPWM_UpdatePwms;							//Task0 initialization. Strip Leds PWM generation
 	pfunction=&CC_APP_Nop;										//Task0 initialization
 	data->Task2Launch[0].function=(void*)pfunction;
-//	pCC_LEDPWM_SoftPwm=&CC_LEDPWM_Strip;						//Pointer to strip control data
-//	data->Task2Launch[0].input_param1=(void*)pCC_LEDPWM_SoftPwm;
 	data->Task2Launch[0].input_param1=(void*)NULL;
 	data->Task2Launch[0].input_param2=(void*)NULL;
 	data->Task2Launch[0].input_param3=(void*)NULL;
 
-//	pfunction=&CC_LEDPWM_IncreaseCntr;							//Task1 initialization. Base PWM count increasing
 	pfunction=&CC_APP_Nop;										//Task1 initialization
 	data->Task2Launch[1].function=(void*)pfunction;
-//	pCC_LEDPWM_SoftPwm=&CC_LEDPWM_Strip;						//Pointer to strip control data
-//	data->Task2Launch[1].input_param1=(void*)pCC_LEDPWM_SoftPwm;
 	data->Task2Launch[1].input_param1=(void*)NULL;
 	data->Task2Launch[1].input_param2=(void*)NULL;
 	data->Task2Launch[1].input_param3=(void*)NULL;

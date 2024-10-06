@@ -1,4 +1,6 @@
-../Core/Src/Drivers/CC_CAN.c:19:6:CC_CAN_SetAddress	16	static
-../Core/Src/Drivers/CC_CAN.c:24:6:CC_CAN_SendMessage	24	static
-../Core/Src/Drivers/CC_CAN.c:38:6:CC_CAN_Init	16	static
-../Core/Src/Drivers/CC_CAN.c:66:6:HAL_FDCAN_RxFifo0Callback	24	static
+../Core/Src/Drivers/CC_CAN.c:19:13:CC_CAN_EnableCANInt	24	static
+../Core/Src/Drivers/CC_CAN.c:24:13:CC_CAN_StartCAN	16	static
+../Core/Src/Drivers/CC_CAN.c:29:6:CC_CAN_SetRxAddress	16	static
+../Core/Src/Drivers/CC_CAN.c:34:6:CC_CAN_SendMessage	24	static
+../Core/Src/Drivers/CC_CAN.c:48:6:CC_CAN_Init	16	static
+../Core/Src/Drivers/CC_CAN.c:76:6:HAL_FDCAN_RxFifo0Callback	24	static

@@ -22,10 +22,10 @@
 #include "stm32g0xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "Application\CC_SCHDLR.h"
-#include "Application\CC_LEDPWM.h"
-#include "MiddleLayer\CC_ML.h"
-#include "Application\CC_LEDPWM.h"
+//#include "Application\CC_SCHDLR.h"
+//#include "Application\CC_LEDPWM.h"
+//#include "MiddleLayer\CC_ML.h"
+//#include "Application\CC_LEDPWM.h"
 
 
 /* USER CODE END Includes */
@@ -160,15 +160,11 @@ void TIM7_LPTIM2_IRQHandler(void)
   /* USER CODE END TIM7_LPTIM2_IRQn 0 */
   HAL_TIM_IRQHandler(&htim7);
   /* USER CODE BEGIN TIM7_LPTIM2_IRQn 1 */
-	CC_LEDPWM_SoftPwm_t* 	pCC_LEDPWM_SoftPwm;				//Pointer to strip leds control data
-	pCC_LEDPWM_SoftPwm=&CC_LEDPWM_Strip;					//Pointer to strip control data
-//	CC_LED_StripLedFuncts_t* pCC_ML_LedsStripsFunctions;	//
-//	pCC_ML_LedsStripsFunctions=&CC_ML_LedsStripsFunctions;
+	CC_LEDPWM_SoftPwm_t* 	pCC_LEDPWM_SoftPwm;									//Pointer to strip leds control data
+	pCC_LEDPWM_SoftPwm=&CC_LEDPWM_Strip;
 
 	CC_LEDPWM_UpdatePwms((void*)pCC_LEDPWM_SoftPwm, (void*)NULL, (void*)NULL);
-//	CC_LEDPWM_UpdatePwms((void*)pCC_LEDPWM_SoftPwm, (void*)pCC_ML_LedsStripsFunctions, (void*)NULL);
 	CC_LEDPWM_IncreaseCntr((void*)pCC_LEDPWM_SoftPwm, (void*)NULL, (void*)NULL);
-
   /* USER CODE END TIM7_LPTIM2_IRQn 1 */
 }
 
@@ -195,24 +191,23 @@ void TIM14_IRQHandler(void)
 //the interrupt flag. If so, it means that the procedure lasted too much
 //and it is increased the missed interrupts count.
 
-	HAL_TIM_Base_Start(&CC_ML_SCHEDULER_CHRONO_HANDLER);
+	CC_ML_StartTimer(&CC_ML_SCHEDULER_CHRONO_HANDLER);
   /* USER CODE END TIM14_IRQn 0 */
   HAL_TIM_IRQHandler(&htim14);
   /* USER CODE BEGIN TIM14_IRQn 1 */
 	uint8_t current_task;
 
 	current_task=CC_SCHDLR_FastScheduler.TaskOngoing;
-//	CC_SCHDLR_FastScheduler.IntCount++;										//Interruptions counter
 	//Overflowing stop
 	if(CC_SCHDLR_FastScheduler.MissIntCnt>CC_SCHDLR_MAX_ALLOWED_MISS_INT)	//Check the number of overflows
 	{
 	//INSERT AN ERROR LOG HERE
-	return;																	//After a limit pSchedulerData wont work anymore
+		return;																//After a limit Scheduler wont work anymore
 	}
 	CC_SCHDLR_Scheduler(((void*)&CC_SCHDLR_FastScheduler), (void*)NULL, (void*)NULL);
-	HAL_TIM_Base_Stop(&CC_ML_SCHEDULER_CHRONO_HANDLER);
+	CC_ML_StopTimer(&CC_ML_SCHEDULER_CHRONO_HANDLER);
 	CC_SCHDLR_SchedulerUsage(&CC_SCHDLR_MainSchedulerUsage, current_task); 	//Keep in mind that the scheduler update the current task, so it needs to work with non-updated current task
-	__HAL_TIM_SET_COUNTER(&CC_ML_SCHEDULER_CHRONO_HANDLER, 0);				//Reset counter timer used to calculate the task's usage
+	CC_TMR_SetTimer(&CC_ML_SCHEDULER_CHRONO_HANDLER, 0);				//Reset counter timer used to calculate the task's usage
 
   /* USER CODE END TIM14_IRQn 1 */
 }
