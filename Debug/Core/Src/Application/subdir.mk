@@ -6,18 +6,21 @@
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
 ../Core/Src/Application/CC_APP.c \
+../Core/Src/Application/CC_ERR.c \
 ../Core/Src/Application/CC_LEDPWM.c \
 ../Core/Src/Application/CC_SCHDLR.c \
 ../Core/Src/Application/CC_SM.c 
 
 OBJS += \
 ./Core/Src/Application/CC_APP.o \
+./Core/Src/Application/CC_ERR.o \
 ./Core/Src/Application/CC_LEDPWM.o \
 ./Core/Src/Application/CC_SCHDLR.o \
 ./Core/Src/Application/CC_SM.o 
 
 C_DEPS += \
 ./Core/Src/Application/CC_APP.d \
+./Core/Src/Application/CC_ERR.d \
 ./Core/Src/Application/CC_LEDPWM.d \
 ./Core/Src/Application/CC_SCHDLR.d \
 ./Core/Src/Application/CC_SM.d 
@@ -30,7 +33,7 @@ Core/Src/Application/%.o Core/Src/Application/%.su Core/Src/Application/%.cyclo:
 clean: clean-Core-2f-Src-2f-Application
 
 clean-Core-2f-Src-2f-Application:
-	-$(RM) ./Core/Src/Application/CC_APP.cyclo ./Core/Src/Application/CC_APP.d ./Core/Src/Application/CC_APP.o ./Core/Src/Application/CC_APP.su ./Core/Src/Application/CC_LEDPWM.cyclo ./Core/Src/Application/CC_LEDPWM.d ./Core/Src/Application/CC_LEDPWM.o ./Core/Src/Application/CC_LEDPWM.su ./Core/Src/Application/CC_SCHDLR.cyclo ./Core/Src/Application/CC_SCHDLR.d ./Core/Src/Application/CC_SCHDLR.o ./Core/Src/Application/CC_SCHDLR.su ./Core/Src/Application/CC_SM.cyclo ./Core/Src/Application/CC_SM.d ./Core/Src/Application/CC_SM.o ./Core/Src/Application/CC_SM.su
+	-$(RM) ./Core/Src/Application/CC_APP.cyclo ./Core/Src/Application/CC_APP.d ./Core/Src/Application/CC_APP.o ./Core/Src/Application/CC_APP.su ./Core/Src/Application/CC_ERR.cyclo ./Core/Src/Application/CC_ERR.d ./Core/Src/Application/CC_ERR.o ./Core/Src/Application/CC_ERR.su ./Core/Src/Application/CC_LEDPWM.cyclo ./Core/Src/Application/CC_LEDPWM.d ./Core/Src/Application/CC_LEDPWM.o ./Core/Src/Application/CC_LEDPWM.su ./Core/Src/Application/CC_SCHDLR.cyclo ./Core/Src/Application/CC_SCHDLR.d ./Core/Src/Application/CC_SCHDLR.o ./Core/Src/Application/CC_SCHDLR.su ./Core/Src/Application/CC_SM.cyclo ./Core/Src/Application/CC_SM.d ./Core/Src/Application/CC_SM.o ./Core/Src/Application/CC_SM.su
 
 .PHONY: clean-Core-2f-Src-2f-Application
 

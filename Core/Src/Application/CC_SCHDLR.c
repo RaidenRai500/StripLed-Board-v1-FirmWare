@@ -2,19 +2,32 @@
  * CC_SCHDLR.c
  *
  *  Created on: Sep 18, 2024
- *      Author: Admin
- */
-//Headers
-#include <MiddleLayer/CC_ML.h>
-#include "Application\CC_SCHDLR.h"
-#include "Application\CC_APP.h"
+ *      Author: Xavier Alsina
+ *
+Disclaimer:
+This project, including all associated documentation and code, is provided "as is," without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, or non-infringement.
 
-//Global Variables Declaration
-CC_SCHDLR_Scheduler_t CC_SCHDLR_FastScheduler;
-CC_SCHDLR_Scheduler_t CC_SCHDLR_SlowScheduler;			//Executed inside the first scheduler (nested)
+In no event shall the authors or copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the project or the use or other dealings in the project.
+
+The code and documentation generated as part of this project are released under the following terms:
+1.	Use and Distribution: You are free to use, modify, and distribute the code and documentation in any medium, provided that proper attribution to the original authors is given.
+2.	Non-Commercial Use: This project may be used for personal, educational, or non-commercial purposes. If you intend to use any part of this project to generate revenue or for commercial purposes, explicit written permission from the author is required.
+3.	No Warranty: The authors make no guarantees about the correctness, reliability, or stability of the code. It is your responsibility to test and verify that the code functions as required in your environment.
+4.	Liability: Under no circumstances shall the authors or contributors be held liable for any direct, indirect, incidental, special, or consequential damages arising out of the use of the code or documentation.
+5.	Contribution: Any contributions made to this project, including pull requests, are assumed to be provided under the same license and terms as the original project.
+6.	Licensing: This project may be subject to additional licensing terms and conditions, particularly if integrating with third-party libraries or systems. It is the user's responsibility to ensure compliance with any such licenses.
+ *
+ */
+//HEADERS
+#include "MiddleLayer\CC_ML.h"
+#include "Application\CC_SCHDLR.h"
+
+//GLOBAL VARIABLES DECLARATION
+CC_SCHDLR_Scheduler_t CC_SCHDLR_MainScheduler;
+CC_SCHDLR_Scheduler_t CC_SCHDLR_NestedScheduler;			//Executed inside the first scheduler (nested)
 CC_SCHDLR_Usage_t CC_SCHDLR_MainSchedulerUsage;			//Faster scheduler taks usage
 
-//Functions
+//FUNCTIONS
 void CC_SCHDLR_Scheduler(
 						void* const pSchedulerStruct,
 						void* const param2,
@@ -48,7 +61,7 @@ void CC_SCHDLR_CheckForSchedulerOverflow(CC_SCHDLR_Scheduler_t* const pScheduler
 //It is checked if an interrupt happened while ISR is attended.
 //It should be used inside the timer's ISR.
 {
-	if (CC_TMR_CheckTimIntFlag(&CC_ML_SCHEDULER_BASETIME_HANDLER)==1)
+	if (CC_ML_CheckTimIntFlag(&CC_ML_SCHEDULER_BASETIME_HANDLER)==1)
 	{
 		pSchedulerData->MissIntCnt++;  		//Overflow count
 	}
@@ -76,7 +89,7 @@ void CC_SCHDLR_SchedulerUsage(CC_SCHDLR_Usage_t* const pSchedulerControl, const 
 	pSchedulerControl->TaskUsageRatio[task_number]=usage;
 }
 
-void CC_SCHDLR_InitFastScheduler(CC_SCHDLR_Scheduler_t* const data)
+void CC_SCHDLR_InitScheduler(CC_SCHDLR_Scheduler_t* const data)
 //Loading the scheduler's structure with functions and/or procedures to launch,
 //and also their parameters.
 //Void pointers to be able to launch different kinds of functions.
@@ -146,15 +159,13 @@ void CC_SCHDLR_InitFastScheduler(CC_SCHDLR_Scheduler_t* const data)
 
 	pfunction=&CC_SCHDLR_Scheduler;								//Task9 initialization. Nested scheduler
 	data->Task2Launch[9].function=(void*)pfunction;
-	pNestedScheduler=&CC_SCHDLR_SlowScheduler;
+	pNestedScheduler=&CC_SCHDLR_NestedScheduler;
 	data->Task2Launch[9].input_param1=(void*)pNestedScheduler;
 	data->Task2Launch[9].input_param2=(void*)NULL;
 	data->Task2Launch[9].input_param3=(void*)NULL;
-
-	//HAL_IWDG_Refresh(&hiwdg);						//Watchdog refresh
 }
 
-void CC_SCHDLR_InitSlowScheduler(CC_SCHDLR_Scheduler_t* const data)
+void CC_SCHDLR_InitNestedScheduler(CC_SCHDLR_Scheduler_t* const data)
 //Loading the scheduler's structure with functions and/or procedures to launch,
 //and also their parameters.
 //Void pointers to be able to launch different kinds of functions.
@@ -166,6 +177,7 @@ void CC_SCHDLR_InitSlowScheduler(CC_SCHDLR_Scheduler_t* const data)
 	FDCAN_HandleTypeDef* 	pFDCAN_HandleTypeDef;	//Pointer FDCAN_HandleTypeDef
 	FDCAN_TxHeaderTypeDef* 	pFDCAN_TxHeaderTypeDef;	//Pointer FDCAN_TxHeaderTypeDef
 	CC_LEDPWM_SoftPwm_t* 	pCC_LEDPWM_SoftPwm;		//Pointer to strip leds control data
+	IWDG_HandleTypeDef*		pIWDG_HandleTypeDef;	//Pointer to inner watchdog handler
 	const uint8_t* 			puint8_2;				//Constant pointer to a constant uint8_t data
 
 	data->TaskOngoing=0;							//AIXO HO VULL A FORA. PEL NESTED ES RARO
@@ -187,7 +199,7 @@ void CC_SCHDLR_InitSlowScheduler(CC_SCHDLR_Scheduler_t* const data)
 	data->Task2Launch[1].input_param2=(void*)NULL;
 	data->Task2Launch[1].input_param3=(void*)NULL;
 
-	pfunction=&CC_ML_UpdateIdSysFromDipSwitch;					//Task9.2 initialization. Board Id update from DIP-Switch
+	pfunction=&CC_ML_UpdateSysIdFromDipSwitch;					//Task9.2 initialization. Board Id update from DIP-Switch
 	data->Task2Launch[2].function=(void*)pfunction;
 	pCC_DIPSW_DipSw=&CC_DIPSW_DipSwitch;
 	pCC_SYS_Config=&CC_APP_BoardData;
@@ -201,16 +213,16 @@ void CC_SCHDLR_InitSlowScheduler(CC_SCHDLR_Scheduler_t* const data)
 	data->Task2Launch[3].input_param2=(void*)NULL;
 	data->Task2Launch[3].input_param3=(void*)NULL;
 
-	pfunction=&CC_ML_SendMessageCAN;							//Task9.4 initialization. Send CAN
+	pfunction=&CC_ML_SendMessageCan;							//Task9.4 initialization. Send CAN
 	data->Task2Launch[4].function=(void*)pfunction;
-	pFDCAN_HandleTypeDef=&hfdcan2;
-	pFDCAN_TxHeaderTypeDef=&CC_CAN_TxHeader;
+	pFDCAN_HandleTypeDef=&CC_ML_PERIPHERALS_CAN;
+	pFDCAN_TxHeaderTypeDef=&CC_ML_CAN_TxHeader;
 	puint8=CC_CAN_TxData;
 	data->Task2Launch[4].input_param1=(void*)pFDCAN_HandleTypeDef;
 	data->Task2Launch[4].input_param2=(void*)pFDCAN_TxHeaderTypeDef;
 	data->Task2Launch[4].input_param3=(void*)puint8;
 
-	pfunction=&CC_LEDPWM_CntrCalculus;										//Task9.5 initialization
+	pfunction=&CC_LEDPWM_CntrCalculus;							//Task9.5 initialization. Calculus of the needed counts the get the desired PWM (soft PWM)
 	data->Task2Launch[5].function=(void*)pfunction;
 	pCC_LEDPWM_SoftPwm=&CC_LEDPWM_Strip;
 	data->Task2Launch[5].input_param1=(void*)pCC_LEDPWM_SoftPwm;
@@ -236,11 +248,17 @@ void CC_SCHDLR_InitSlowScheduler(CC_SCHDLR_Scheduler_t* const data)
 	data->Task2Launch[8].input_param2=(void*)NULL;
 	data->Task2Launch[8].input_param3=(void*)NULL;
 
-	pfunction=&CC_APP_Nop;										//Task9.9 initialization
+//	pfunction=&CC_APP_Nop;										//Task9.9 initialization.Testing for the watchdog. No refresh
+//	data->Task2Launch[9].function=(void*)pfunction;
+//	data->Task2Launch[9].input_param1=(void*)NULL;
+//	data->Task2Launch[9].input_param2=(void*)NULL;
+//	data->Task2Launch[9].input_param3=(void*)NULL;
+
+	pfunction=&CC_ML_RefreshWatchdog;							//Task9.9 initialization. Inner Watchdog refresh. Trigger at 200ms
 	data->Task2Launch[9].function=(void*)pfunction;
-	data->Task2Launch[9].input_param1=(void*)NULL;
+	pIWDG_HandleTypeDef=&CC_WATCHDOG_HANDLER;
+	data->Task2Launch[9].input_param1=(void*)pIWDG_HandleTypeDef;
 	data->Task2Launch[9].input_param2=(void*)NULL;
 	data->Task2Launch[9].input_param3=(void*)NULL;
 }
-
 

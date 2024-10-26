@@ -1,5 +1,5 @@
 Core/Src/Application/CC_SCHDLR.o: ../Core/Src/Application/CC_SCHDLR.c \
- ../Core/Inc/MiddleLayer/CC_ML.h \
+ ../Core/Inc/MiddleLayer\CC_ML.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal.h \
  ../Core/Inc/stm32g0xx_hal_conf.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_rcc.h \
@@ -26,6 +26,7 @@ Core/Src/Application/CC_SCHDLR.o: ../Core/Src/Application/CC_SCHDLR.c \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_flash.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_flash_ex.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_fdcan.h \
+ ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_iwdg.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_pwr.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_pwr_ex.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_tim.h \
@@ -36,10 +37,10 @@ Core/Src/Application/CC_SCHDLR.o: ../Core/Src/Application/CC_SCHDLR.c \
  ../Core/Inc/Drivers\CC_BOARDLED.h ../Core/Inc/Drivers\CC_CAN.h \
  ../Core/Inc/Drivers\CC_DIPSW.h ../Core/Inc/Drivers\CC_LED.h \
  ../Core/Inc/Drivers\CC_SERIAL.h ../Core/Inc/Drivers\CC_TMR.h \
- ../Core/Inc/Application\CC_APP.h ../Core/Inc/MiddleLayer\CC_ML.h \
+ ../Core/Inc/Drivers\CC_WATCHDOG.h ../Core/Inc/Application\CC_APP.h \
  ../Core/Inc/Application\CC_LEDPWM.h ../Core/Inc/Application\CC_SCHDLR.h \
- ../Core/Inc/Application\CC_SM.h
-../Core/Inc/MiddleLayer/CC_ML.h:
+ ../Core/Inc/Application\CC_SM.h ../Core/Inc/Application\CC_ERR.h
+../Core/Inc/MiddleLayer\CC_ML.h:
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal.h:
 ../Core/Inc/stm32g0xx_hal_conf.h:
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_rcc.h:
@@ -66,6 +67,7 @@ Core/Src/Application/CC_SCHDLR.o: ../Core/Src/Application/CC_SCHDLR.c \
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_flash.h:
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_flash_ex.h:
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_fdcan.h:
+../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_iwdg.h:
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_pwr.h:
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_pwr_ex.h:
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_tim.h:
@@ -80,8 +82,9 @@ Core/Src/Application/CC_SCHDLR.o: ../Core/Src/Application/CC_SCHDLR.c \
 ../Core/Inc/Drivers\CC_LED.h:
 ../Core/Inc/Drivers\CC_SERIAL.h:
 ../Core/Inc/Drivers\CC_TMR.h:
+../Core/Inc/Drivers\CC_WATCHDOG.h:
 ../Core/Inc/Application\CC_APP.h:
-../Core/Inc/MiddleLayer\CC_ML.h:
 ../Core/Inc/Application\CC_LEDPWM.h:
 ../Core/Inc/Application\CC_SCHDLR.h:
 ../Core/Inc/Application\CC_SM.h:
+../Core/Inc/Application\CC_ERR.h:

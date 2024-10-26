@@ -15,6 +15,28 @@
   *
   ******************************************************************************
   */
+
+/*
+ *
+ *
+ *  Created on: Oct 20, 2024
+ *      Author: Xavier Alsina
+ *
+Disclaimer:
+This project, including all associated documentation and code, is provided "as is," without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, or non-infringement.
+
+In no event shall the authors or copyright holders be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the project or the use or other dealings in the project.
+
+The code and documentation generated as part of this project are released under the following terms:
+1.	Use and Distribution: You are free to use, modify, and distribute the code and documentation in any medium, provided that proper attribution to the original authors is given.
+2.	Non-Commercial Use: This project may be used for personal, educational, or non-commercial purposes. If you intend to use any part of this project to generate revenue or for commercial purposes, explicit written permission from the author is required.
+3.	No Warranty: The authors make no guarantees about the correctness, reliability, or stability of the code. It is your responsibility to test and verify that the code functions as required in your environment.
+4.	Liability: Under no circumstances shall the authors or contributors be held liable for any direct, indirect, incidental, special, or consequential damages arising out of the use of the code or documentation.
+5.	Contribution: Any contributions made to this project, including pull requests, are assumed to be provided under the same license and terms as the original project.
+6.	Licensing: This project may be subject to additional licensing terms and conditions, particularly if integrating with third-party libraries or systems. It is the user's responsibility to ensure compliance with any such licenses.
+ *
+ */
+
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -43,6 +65,8 @@
 /* Private variables ---------------------------------------------------------*/
 FDCAN_HandleTypeDef hfdcan2;
 
+IWDG_HandleTypeDef hiwdg;
+
 TIM_HandleTypeDef htim6;
 TIM_HandleTypeDef htim7;
 TIM_HandleTypeDef htim14;
@@ -61,6 +85,7 @@ static void MX_TIM14_Init(void);
 static void MX_USART1_UART_Init(void);
 static void MX_TIM6_Init(void);
 static void MX_TIM7_Init(void);
+static void MX_IWDG_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -104,19 +129,21 @@ int main(void)
   MX_USART1_UART_Init();
   MX_TIM6_Init();
   MX_TIM7_Init();
+  MX_IWDG_Init();
   /* USER CODE BEGIN 2 */
-  CC_APP_SetBoardParam(&CC_APP_BoardData);	//Board's characteristics and parameters setting
-  CC_LEDPWM_Init(&CC_LEDPWM_Strip);	  		//Strip-leds handler initialization
-  CC_ML_SoftPwmBasetimeandIntrrptsInit();	//Soft-PWM timer generation initialization
+  CC_APP_SetBoardParam(&CC_APP_BoardData);						//Board's characteristics and parameters setting
+  //SoftPWM for strip leds initialization
+  CC_LEDPWM_Init(&CC_LEDPWM_Strip);	  							//Strip-leds handler initialization
+  CC_ML_StartSoftPwmBasetimeAndInterrupts();					//Soft-PWM timer generation initialization
   //Schedulers initialization
-  CC_SCHDLR_InitFastScheduler(&CC_SCHDLR_FastScheduler);
-  CC_SCHDLR_InitSlowScheduler(&CC_SCHDLR_SlowScheduler);
-  CC_ML_SchedulerInit();
+  CC_SCHDLR_InitScheduler(&CC_SCHDLR_MainScheduler);			//Fast tasks loading
+  CC_SCHDLR_InitNestedScheduler(&CC_SCHDLR_NestedScheduler);	//Tasks loading onto nested scheduler
+  CC_ML_StartScheduler();										//Schedulers on
   //Serial receive initialization
-  CC_ML_EnableRxIntUART();
-  CC_ML_InitCAN();							//CAN initialization
-  CC_ML_StartCAN();
-  CC_ML_EnableCANInt();
+  CC_ML_EnableRxIntUart();										//UART Rx interruptions enabled
+  CC_ML_InitCan();												//CAN initialization
+  CC_ML_StartCan();												//CAN ready to send
+  CC_ML_EnableCanRxInt();										//CAN Rx interruptions enabled
   /* USER CODE END 2 */
 
   /* Infinite loop */
@@ -146,8 +173,9 @@ void SystemClock_Config(void)
   /** Initializes the RCC Oscillators according to the specified parameters
   * in the RCC_OscInitTypeDef structure.
   */
-  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_HSE;
+  RCC_OscInitStruct.OscillatorType = RCC_OSCILLATORTYPE_LSI|RCC_OSCILLATORTYPE_HSE;
   RCC_OscInitStruct.HSEState = RCC_HSE_ON;
+  RCC_OscInitStruct.LSIState = RCC_LSI_ON;
   RCC_OscInitStruct.PLL.PLLState = RCC_PLL_ON;
   RCC_OscInitStruct.PLL.PLLSource = RCC_PLLSOURCE_HSE;
   RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV1;
@@ -215,6 +243,35 @@ static void MX_FDCAN2_Init(void)
   /* USER CODE BEGIN FDCAN2_Init 2 */
 
   /* USER CODE END FDCAN2_Init 2 */
+
+}
+
+/**
+  * @brief IWDG Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_IWDG_Init(void)
+{
+
+  /* USER CODE BEGIN IWDG_Init 0 */
+
+  /* USER CODE END IWDG_Init 0 */
+
+  /* USER CODE BEGIN IWDG_Init 1 */
+
+  /* USER CODE END IWDG_Init 1 */
+  hiwdg.Instance = IWDG;
+  hiwdg.Init.Prescaler = IWDG_PRESCALER_4;
+  hiwdg.Init.Window = 4095;
+  hiwdg.Init.Reload = 1599;
+  if (HAL_IWDG_Init(&hiwdg) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN IWDG_Init 2 */
+
+  /* USER CODE END IWDG_Init 2 */
 
 }
 

@@ -37,34 +37,34 @@ $(wildcard ../makefile.init) \
 $(wildcard ../makefile.targets) \
 
 
-BUILD_ARTIFACT_NAME := 10_STRIP_LEDS_DIMMER
+BUILD_ARTIFACT_NAME := ClapClap_Ledscontrol_HWv0
 BUILD_ARTIFACT_EXTENSION := elf
 BUILD_ARTIFACT_PREFIX :=
 BUILD_ARTIFACT := $(BUILD_ARTIFACT_PREFIX)$(BUILD_ARTIFACT_NAME)$(if $(BUILD_ARTIFACT_EXTENSION),.$(BUILD_ARTIFACT_EXTENSION),)
 
 # Add inputs and outputs from these tool invocations to the build variables 
 EXECUTABLES += \
-10_STRIP_LEDS_DIMMER.elf \
+ClapClap_Ledscontrol_HWv0.elf \
 
 MAP_FILES += \
-10_STRIP_LEDS_DIMMER.map \
+ClapClap_Ledscontrol_HWv0.map \
 
 SIZE_OUTPUT += \
 default.size.stdout \
 
 OBJDUMP_LIST += \
-10_STRIP_LEDS_DIMMER.list \
+ClapClap_Ledscontrol_HWv0.list \
 
 
 # All Target
 all: main-build
 
 # Main-build Target
-main-build: 10_STRIP_LEDS_DIMMER.elf secondary-outputs
+main-build: ClapClap_Ledscontrol_HWv0.elf secondary-outputs
 
 # Tool invocations
-10_STRIP_LEDS_DIMMER.elf 10_STRIP_LEDS_DIMMER.map: $(OBJS) $(USER_OBJS) E:\Programs\STM32CubeIDE\workspace_1.16.0\10_STRIP_LEDS_DIMMER\STM32G0B1CBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "10_STRIP_LEDS_DIMMER.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"E:\Programs\STM32CubeIDE\workspace_1.16.0\10_STRIP_LEDS_DIMMER\STM32G0B1CBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="10_STRIP_LEDS_DIMMER.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+ClapClap_Ledscontrol_HWv0.elf ClapClap_Ledscontrol_HWv0.map: $(OBJS) $(USER_OBJS) D:\TEMP\10_STRIP_LEDS_DIMMER\STM32G0B1CBTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "ClapClap_Ledscontrol_HWv0.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m0plus -T"D:\TEMP\10_STRIP_LEDS_DIMMER\STM32G0B1CBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="ClapClap_Ledscontrol_HWv0.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 
@@ -73,14 +73,14 @@ default.size.stdout: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
 	@echo 'Finished building: $@'
 	@echo ' '
 
-10_STRIP_LEDS_DIMMER.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "10_STRIP_LEDS_DIMMER.list"
+ClapClap_Ledscontrol_HWv0.list: $(EXECUTABLES) makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-objdump -h -S $(EXECUTABLES) > "ClapClap_Ledscontrol_HWv0.list"
 	@echo 'Finished building: $@'
 	@echo ' '
 
 # Other Targets
 clean:
-	-$(RM) 10_STRIP_LEDS_DIMMER.elf 10_STRIP_LEDS_DIMMER.list 10_STRIP_LEDS_DIMMER.map default.size.stdout
+	-$(RM) ClapClap_Ledscontrol_HWv0.elf ClapClap_Ledscontrol_HWv0.list ClapClap_Ledscontrol_HWv0.map default.size.stdout
 	-@echo ' '
 
 secondary-outputs: $(SIZE_OUTPUT) $(OBJDUMP_LIST)

@@ -1,2 +1,2 @@
-../Core/Src/Application/CC_SM.c:16:6:CC_SM_SetColor	24	static
-../Core/Src/Application/CC_SM.c:27:6:CC_SM_UsartSM	184	static
+../Core/Src/Application/CC_SM.c:31:6:CC_SM_SetColor	24	static
+../Core/Src/Application/CC_SM.c:42:6:CC_SM_UsartSM	192	static

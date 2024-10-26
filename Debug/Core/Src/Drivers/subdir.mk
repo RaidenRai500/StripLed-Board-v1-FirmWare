@@ -11,7 +11,8 @@ C_SRCS += \
 ../Core/Src/Drivers/CC_IPC.c \
 ../Core/Src/Drivers/CC_LED.c \
 ../Core/Src/Drivers/CC_SERIAL.c \
-../Core/Src/Drivers/CC_TMR.c 
+../Core/Src/Drivers/CC_TMR.c \
+../Core/Src/Drivers/CC_WATCHDOG.c 
 
 OBJS += \
 ./Core/Src/Drivers/CC_BOARDLED.o \
@@ -20,7 +21,8 @@ OBJS += \
 ./Core/Src/Drivers/CC_IPC.o \
 ./Core/Src/Drivers/CC_LED.o \
 ./Core/Src/Drivers/CC_SERIAL.o \
-./Core/Src/Drivers/CC_TMR.o 
+./Core/Src/Drivers/CC_TMR.o \
+./Core/Src/Drivers/CC_WATCHDOG.o 
 
 C_DEPS += \
 ./Core/Src/Drivers/CC_BOARDLED.d \
@@ -29,7 +31,8 @@ C_DEPS += \
 ./Core/Src/Drivers/CC_IPC.d \
 ./Core/Src/Drivers/CC_LED.d \
 ./Core/Src/Drivers/CC_SERIAL.d \
-./Core/Src/Drivers/CC_TMR.d 
+./Core/Src/Drivers/CC_TMR.d \
+./Core/Src/Drivers/CC_WATCHDOG.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
@@ -39,7 +42,7 @@ Core/Src/Drivers/%.o Core/Src/Drivers/%.su Core/Src/Drivers/%.cyclo: ../Core/Src
 clean: clean-Core-2f-Src-2f-Drivers
 
 clean-Core-2f-Src-2f-Drivers:
-	-$(RM) ./Core/Src/Drivers/CC_BOARDLED.cyclo ./Core/Src/Drivers/CC_BOARDLED.d ./Core/Src/Drivers/CC_BOARDLED.o ./Core/Src/Drivers/CC_BOARDLED.su ./Core/Src/Drivers/CC_CAN.cyclo ./Core/Src/Drivers/CC_CAN.d ./Core/Src/Drivers/CC_CAN.o ./Core/Src/Drivers/CC_CAN.su ./Core/Src/Drivers/CC_DIPSW.cyclo ./Core/Src/Drivers/CC_DIPSW.d ./Core/Src/Drivers/CC_DIPSW.o ./Core/Src/Drivers/CC_DIPSW.su ./Core/Src/Drivers/CC_IPC.cyclo ./Core/Src/Drivers/CC_IPC.d ./Core/Src/Drivers/CC_IPC.o ./Core/Src/Drivers/CC_IPC.su ./Core/Src/Drivers/CC_LED.cyclo ./Core/Src/Drivers/CC_LED.d ./Core/Src/Drivers/CC_LED.o ./Core/Src/Drivers/CC_LED.su ./Core/Src/Drivers/CC_SERIAL.cyclo ./Core/Src/Drivers/CC_SERIAL.d ./Core/Src/Drivers/CC_SERIAL.o ./Core/Src/Drivers/CC_SERIAL.su ./Core/Src/Drivers/CC_TMR.cyclo ./Core/Src/Drivers/CC_TMR.d ./Core/Src/Drivers/CC_TMR.o ./Core/Src/Drivers/CC_TMR.su
+	-$(RM) ./Core/Src/Drivers/CC_BOARDLED.cyclo ./Core/Src/Drivers/CC_BOARDLED.d ./Core/Src/Drivers/CC_BOARDLED.o ./Core/Src/Drivers/CC_BOARDLED.su ./Core/Src/Drivers/CC_CAN.cyclo ./Core/Src/Drivers/CC_CAN.d ./Core/Src/Drivers/CC_CAN.o ./Core/Src/Drivers/CC_CAN.su ./Core/Src/Drivers/CC_DIPSW.cyclo ./Core/Src/Drivers/CC_DIPSW.d ./Core/Src/Drivers/CC_DIPSW.o ./Core/Src/Drivers/CC_DIPSW.su ./Core/Src/Drivers/CC_IPC.cyclo ./Core/Src/Drivers/CC_IPC.d ./Core/Src/Drivers/CC_IPC.o ./Core/Src/Drivers/CC_IPC.su ./Core/Src/Drivers/CC_LED.cyclo ./Core/Src/Drivers/CC_LED.d ./Core/Src/Drivers/CC_LED.o ./Core/Src/Drivers/CC_LED.su ./Core/Src/Drivers/CC_SERIAL.cyclo ./Core/Src/Drivers/CC_SERIAL.d ./Core/Src/Drivers/CC_SERIAL.o ./Core/Src/Drivers/CC_SERIAL.su ./Core/Src/Drivers/CC_TMR.cyclo ./Core/Src/Drivers/CC_TMR.d ./Core/Src/Drivers/CC_TMR.o ./Core/Src/Drivers/CC_TMR.su ./Core/Src/Drivers/CC_WATCHDOG.cyclo ./Core/Src/Drivers/CC_WATCHDOG.d ./Core/Src/Drivers/CC_WATCHDOG.o ./Core/Src/Drivers/CC_WATCHDOG.su
 
 .PHONY: clean-Core-2f-Src-2f-Drivers
 
