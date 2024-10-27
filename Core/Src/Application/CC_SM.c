@@ -28,17 +28,6 @@ The code and documentation generated as part of this project are released under 
 //GLOBAL VARIABLES DECLARATION
 
 //FUNCTIONS
-void CC_SM_SetColor(CC_LED_Colors_t RequestedColor)
-//Connector between the State Machine and the LED's controller
-{
-	uint8_t i=0;
-	while(i<CC_LED_MAX_STRIPS)
-	{
-		CC_LED_hStrip[i].color = RequestedColor;
-		i++;
-	}
-}
-
 void CC_SM_UsartSM(void* param1, void* param2, void* param3)
 {
 	static CC_SM_SerialStatesTypedef UsartSM_state=UART_SM_START_MSG;
@@ -53,7 +42,7 @@ void CC_SM_UsartSM(void* param1, void* param2, void* param3)
 	{
 	case UART_SM_START_MSG:
 		CC_ML_SendUARTString((const char*)"Should we start?\n\r", &CC_ML_SERIAL_DEBUG_HANDLER);
-		CC_ML_SendUARTString((const char*)"Yes(Y)\n\rNo(N)\n\r", &CC_ML_SERIAL_DEBUG_HANDLER);
+		CC_ML_SendUARTString((const char*)MSG_Y_OR_N, &CC_ML_SERIAL_DEBUG_HANDLER);
 		UsartSM_state=UART_SM_STARTING;
 	break;
 
@@ -65,19 +54,18 @@ void CC_SM_UsartSM(void* param1, void* param2, void* param3)
 		break;
 		case 'Y':
 		case 'y':
-			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);//Sending the character given back
-			CC_ML_SendUARTString((const char*)MESSAGE_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
+			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);		//Sending the character given back
+			CC_ML_SendUARTString((const char*)MSG_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
 			UsartSM_state=UART_SM_WELCOME_MSG;
 		break;
 		case 'N':
 		case 'n':
-			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);//Sending the character given back
-			CC_ML_SendUARTString((const char*)MESSAGE_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
+			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);		//Sending the character given back
+			CC_ML_SendUARTString((const char*)MSG_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
 			UsartSM_state=UART_SM_EXIT;
 		break;
 		default:					//Wrong order gotten
-			CC_ML_SendUARTString((const char*)MESSAGE_RETURN, &CC_ML_SERIAL_DEBUG_HANDLER);
-			CC_ML_SendUARTString((const char*)MESSAGE9, &CC_ML_SERIAL_DEBUG_HANDLER);
+			CC_ML_SendUARTString((const char*)MSG_WRONG_SEL, &CC_ML_SERIAL_DEBUG_HANDLER);
 			UsartSM_state=UART_SM_START_MSG;
 		break;
 		}
@@ -85,21 +73,21 @@ void CC_SM_UsartSM(void* param1, void* param2, void* param3)
 	break;
 
 	case UART_SM_WELCOME_MSG:
-		CC_ML_SendUARTString((const char*)MESSAGE1, &CC_ML_SERIAL_DEBUG_HANDLER);
-		CC_ML_SendUARTString((const char*)MESSAGE2, &CC_ML_SERIAL_DEBUG_HANDLER);
-		CC_ML_SendUARTString((const char*)MESSAGE3, &CC_ML_SERIAL_DEBUG_HANDLER);
+		CC_ML_SendUARTString((const char*)"Welcome to the strip leds control\n\r", &CC_ML_SERIAL_DEBUG_HANDLER);
+		CC_ML_SendUARTString((const char*)"The application which allows you to control your led lights\n\r", &CC_ML_SERIAL_DEBUG_HANDLER);
+		CC_ML_SendUARTString((const char*)"Running over the hardware: ", &CC_ML_SERIAL_DEBUG_HANDLER);
 		CC_ML_SendUARTString((const char*)CC_APP_BoardData.HwCode, &CC_ML_SERIAL_DEBUG_HANDLER);
-		CC_ML_SendUARTString((const char*)MESSAGE_RETURN, &CC_ML_SERIAL_DEBUG_HANDLER);
-		CC_ML_SendUARTString((const char*)MESSAGE4, &CC_ML_SERIAL_DEBUG_HANDLER);
+		CC_ML_SendUARTString((const char*)MSG_RETURN, &CC_ML_SERIAL_DEBUG_HANDLER);
+		CC_ML_SendUARTString((const char*)"With a uC: ", &CC_ML_SERIAL_DEBUG_HANDLER);
 		CC_ML_SendUARTString((const char*)CC_APP_BoardData.uC, &CC_ML_SERIAL_DEBUG_HANDLER);
-		CC_ML_SendUARTString((const char*)MESSAGE_RETURN, &CC_ML_SERIAL_DEBUG_HANDLER);
-		CC_ML_SendUARTString((const char*)MESSAGE5, &CC_ML_SERIAL_DEBUG_HANDLER);
+		CC_ML_SendUARTString((const char*)MSG_RETURN, &CC_ML_SERIAL_DEBUG_HANDLER);
+		CC_ML_SendUARTString((const char*)"Software version: ", &CC_ML_SERIAL_DEBUG_HANDLER);
 		CC_ML_SendUARTString((const char*)CC_APP_BoardData.SwVer, &CC_ML_SERIAL_DEBUG_HANDLER);
-		CC_ML_SendUARTString((const char*)MESSAGE_RETURN, &CC_ML_SERIAL_DEBUG_HANDLER);
-		CC_ML_SendUARTString((const char*)MESSAGE6, &CC_ML_SERIAL_DEBUG_HANDLER);
+		CC_ML_SendUARTString((const char*)MSG_RETURN, &CC_ML_SERIAL_DEBUG_HANDLER);
+		CC_ML_SendUARTString((const char*)"Board identifier: ", &CC_ML_SERIAL_DEBUG_HANDLER);
 		utoa(CC_APP_BoardData.id, sendString, 10);									//Converting the identifier to ascii in decimal base
 		CC_ML_SendUARTString((const char*)sendString, &CC_ML_SERIAL_DEBUG_HANDLER);
-		CC_ML_SendUARTString((const char*)MESSAGE_TRIPLERETURN, &CC_ML_SERIAL_DEBUG_HANDLER);
+		CC_ML_SendUARTString((const char*)MSG_TRIPLERETURN, &CC_ML_SERIAL_DEBUG_HANDLER);
 		UsartSM_state=UART_SM_MODE_MSG;
 	break;
 
@@ -117,25 +105,24 @@ void CC_SM_UsartSM(void* param1, void* param2, void* param3)
 		break;
 		case 'O':
 		case 'o':
-			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);//Sending the character given back
-			CC_ML_SendUARTString((const char*)MESSAGE_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
+			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);		//Sending the character given back
+			CC_ML_SendUARTString((const char*)MSG_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
 			UsartSM_state=UART_SM_OPERATION_MSG;
 		break;
 		case 'D':
 		case 'd':
-			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);//Sending the character given back
-			CC_ML_SendUARTString((const char*)MESSAGE_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
+			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);		//Sending the character given back
+			CC_ML_SendUARTString((const char*)MSG_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
 			UsartSM_state=UART_SM_DEBUG_MSG;
 		break;
 		case 'E':
 		case 'e':
-			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);//Sending the character given back
-			CC_ML_SendUARTString((const char*)MESSAGE_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
+			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);		//Sending the character given back
+			CC_ML_SendUARTString((const char*)MSG_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
 			UsartSM_state=UART_SM_EXIT;
 		break;
 		default:
-			CC_ML_SendUARTString((const char*)MESSAGE_RETURN, &CC_ML_SERIAL_DEBUG_HANDLER);
-			CC_ML_SendUARTString((const char*)MESSAGE9, &CC_ML_SERIAL_DEBUG_HANDLER);
+			CC_ML_SendUARTString((const char*)MSG_WRONG_SEL, &CC_ML_SERIAL_DEBUG_HANDLER);
 		break;
 		}
 		CC_ML_ClearUARTRxData();
@@ -152,7 +139,7 @@ void CC_SM_UsartSM(void* param1, void* param2, void* param3)
 		if (input_char=='E'||input_char=='e') //Exit?
 		{
 			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);				//Sending the character given back
-			CC_ML_SendUARTString((const char*)MESSAGE_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);	//Cleaning the line into the console
+			CC_ML_SendUARTString((const char*)MSG_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);	//Cleaning the line into the console
 			UsartSM_state=UART_SM_MODE_MSG;															//Returning to the main menu
 		}
 		CC_ML_ClearUARTRxData();									//Cleaning whatever be in the UART's buffer
@@ -190,7 +177,7 @@ void CC_SM_UsartSM(void* param1, void* param2, void* param3)
 				input_string[1]=0;
 				input_string[2]=0;
 				UsartSM_state=UART_SM_OPERATION_GREEN_MSG;				//Next SM state
-				CC_ML_SendUARTString((const char*)MESSAGE_RETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
+				CC_ML_SendUARTString((const char*)MSG_RETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
 			}
 			CC_ML_ClearUARTRxData();									//Cleaning whatever be in the UART's buffer
 		}
@@ -223,7 +210,7 @@ void CC_SM_UsartSM(void* param1, void* param2, void* param3)
 				input_string[1]=0;
 				input_string[2]=0;
 				UsartSM_state=UART_SM_OPERATION_BLUE_MSG;				//Next SM state
-				CC_ML_SendUARTString((const char*)MESSAGE_RETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
+				CC_ML_SendUARTString((const char*)MSG_RETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
 			}
 			CC_ML_ClearUARTRxData();									//Cleaning whatever be in the UART's buffer
 		}
@@ -237,7 +224,7 @@ void CC_SM_UsartSM(void* param1, void* param2, void* param3)
 	case UART_SM_OPERATION_BLUE:
 		if(isdigit(input_char))											//Checking if the character given is a numeric digit
 		{
-			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);//Sending the character given back
+			CC_ML_SendUARTChar((uint8_t*)(&input_char), &CC_ML_SERIAL_DEBUG_HANDLER);//Sending the character given back
 			input_string[char_number]=input_char;						//Storing to get the total duty value (in a string)
 			char_number++;												//Next number
 			if (char_number==3)											//3 digits for the duty
@@ -256,7 +243,7 @@ void CC_SM_UsartSM(void* param1, void* param2, void* param3)
 				input_string[1]=0;
 				input_string[2]=0;
 				UsartSM_state=UART_SM_OPERATION_REPEAT_MSG;				//Next SM state
-				CC_ML_SendUARTString((const char*)MESSAGE_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
+				CC_ML_SendUARTString((const char*)MSG_TRIPLERETURN, &CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
 			}
 			CC_ML_ClearUARTRxData();									//Cleaning whatever be in the UART's buffer
 		}
@@ -274,34 +261,28 @@ void CC_SM_UsartSM(void* param1, void* param2, void* param3)
 		break;
 		case 'Y':
 		case 'y':
-			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);//Sending the character given back
-			CC_ML_SendUARTString((const char*)MESSAGE_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
+			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);		//Sending the character given back
+			CC_ML_SendUARTString((const char*)MSG_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
 			UsartSM_state=UART_SM_OPERATION_MSG;	//Enter again the duties
 		break;
 		case 'N':
 		case 'n':
-			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);//Sending the character given back
-			CC_ML_SendUARTString((const char*)MESSAGE_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
+			CC_ML_SendUARTChar((uint8_t*)(&input_char),&CC_ML_SERIAL_DEBUG_HANDLER);		//Sending the character given back
+			CC_ML_SendUARTString((const char*)MSG_TRIPLERETURN,&CC_ML_SERIAL_DEBUG_HANDLER);//Cleaning the line into the console
 			UsartSM_state=UART_SM_MODE_MSG;			//Go to the main menu
 		break;
 		default:
-			CC_ML_SendUARTString((const char*)MESSAGE_RETURN, &CC_ML_SERIAL_DEBUG_HANDLER);
-			CC_ML_SendUARTString((const char*)MESSAGE9, &CC_ML_SERIAL_DEBUG_HANDLER);
+			CC_ML_SendUARTString((const char*)MSG_WRONG_SEL, &CC_ML_SERIAL_DEBUG_HANDLER);
 		break;
 		}
 		CC_ML_ClearUARTRxData();
 	break;
 
 	case UART_SM_EXIT:
-		CC_ML_SendUARTString((const char*)MESSAGE_RETURN, &CC_ML_SERIAL_DEBUG_HANDLER);
-		CC_ML_SendUARTString((const char*)MESSAGE10, &CC_ML_SERIAL_DEBUG_HANDLER);
-		CC_ML_SendUARTString((const char*)MESSAGE_TRIPLERETURN, &CC_ML_SERIAL_DEBUG_HANDLER);
-		UsartSM_state=UART_SM_STOP;
+		CC_ML_SendUARTString((const char*)"\n\rThanks for using our devices\n\rGoodbye!\n\r", &CC_ML_SERIAL_DEBUG_HANDLER);
+		CC_ML_SendUARTString((const char*)MSG_TRIPLERETURN, &CC_ML_SERIAL_DEBUG_HANDLER);
+		UsartSM_state=UART_SM_START_MSG;
 	break;
 
-	case UART_SM_STOP:
-		//It is just doing nothing
-	break;
 	}
 }
-

@@ -1,4 +1,4 @@
 ../Core/Src/Application/CC_LEDPWM.c:32:6:CC_LEDPWM_Init	24	static
 ../Core/Src/Application/CC_LEDPWM.c:49:6:CC_LEDPWM_CntrCalculus	48	static
 ../Core/Src/Application/CC_LEDPWM.c:66:6:CC_LEDPWM_IncreaseCntr	32	static
-../Core/Src/Application/CC_LEDPWM.c:76:6:CC_LEDPWM_UpdatePwms	32	static
+../Core/Src/Application/CC_LEDPWM.c:76:6:CC_LEDPWM_UpdatePwms	40	static

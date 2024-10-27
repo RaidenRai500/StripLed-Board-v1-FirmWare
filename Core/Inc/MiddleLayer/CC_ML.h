@@ -65,11 +65,11 @@ The code and documentation generated as part of this project are released under 
 
 	//VARIABLES PROTOTYPES
 	extern uint8_t CC_SERIAL_RxData[];
-	extern const uint8_t* const pCC_ML_SERIAL_DEBUG_RxData;
-	extern const uint8_t* const pCC_ML_CAN_RxData;			//Pointer to CAN's Rx data. Read only.
-	extern FDCAN_TxHeaderTypeDef CC_ML_CAN_TxHeader;		//CAN transmit header
-	extern FDCAN_RxHeaderTypeDef CC_ML_CAN_RxHeader;		//CAN receiver header
-//	extern const CC_LED_StripLedFuncts_t CC_ML_LedsStripsFunctions;
+	extern const uint8_t* const pCC_ML_SERIAL_DEBUG_RxData;			//Pointer to the UART received data
+	extern const uint8_t* const pCC_ML_CAN_RxData;					//Pointer to CAN's Rx data. Read only.
+	extern FDCAN_TxHeaderTypeDef CC_ML_CAN_TxHeader;				//CAN transmit header
+	extern FDCAN_RxHeaderTypeDef CC_ML_CAN_RxHeader;				//CAN receiver header
+	extern const CC_LED_StripLedFuncts_t CC_ML_LedsStripsFunctions;	//Pointer to the struct with the loaded soft-PWM functions
 
 	//FUNCTIONS PROTOTYPES
 	void CC_ML_StartSoftPwmBasetimeAndInterrupts(void);

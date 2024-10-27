@@ -28,7 +28,7 @@ The code and documentation generated as part of this project are released under 
 	//CC_CAN
 FDCAN_RxHeaderTypeDef CC_ML_CAN_RxHeader;																//CAN receiver header
 FDCAN_TxHeaderTypeDef CC_ML_CAN_TxHeader;
-const uint8_t* const pCC_ML_CAN_RxData=CC_CAN_RxData;		//Pointer to CAN's Rx data. Read only.
+const uint8_t* const pCC_ML_CAN_RxData=CC_CAN_RxData;					//Pointer to CAN's Rx data. Read only.
 	//CC_SERIAL
 const uint8_t* const pCC_ML_SERIAL_DEBUG_RxData=CC_SERIAL_RxData;		//Pointer to Rx data. Read only
 	//CC_LEDS
@@ -109,7 +109,6 @@ const CC_LED_StripLedFuncts_t CC_ML_LedsStripsFunctions =
 };
 
 //FUNCTIONS
-
 //Inner Watchdog
 void CC_ML_RefreshWatchdog(void* param1, void* param2, void* param3)
 {

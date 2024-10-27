@@ -28,7 +28,6 @@ The code and documentation generated as part of this project are released under 
 	#define CC_LEDPWM_SOFTPWMBASECOUNTS 100						//Equivalent counts for the soft PWM
 	#define CC_LEDPWM_INITDUTY 0								//Duty cycle by default
 	#define CC_LEDPWM_TOTALSTRIPS 10							//Number of led strips
-//	const uint8_t CC_LEDPWM_TotalStrips=CC_LEDPWM_TOTALSTRIPS;	//Number of led strips
 
 	//DATA TYPES
 	struct CC_LEDPWM_Strip_t
@@ -70,6 +69,7 @@ The code and documentation generated as part of this project are released under 
 	//VARIABLES PROTOTYPES
 	extern CC_LEDPWM_SoftPwm_t  CC_LEDPWM_Strip;
 	extern const uint8_t CC_LEDPWM_TotalStrips;
+	extern const CC_LED_StripLedFuncts_t CC_ML_LedsStripsFunctions;
 
 	//FUNCTIONS PROTOTYPES
 	void CC_LEDPWM_Init(CC_LEDPWM_SoftPwm_t*);

@@ -182,10 +182,14 @@ void TIM7_LPTIM2_IRQHandler(void)
   /* USER CODE END TIM7_LPTIM2_IRQn 0 */
   HAL_TIM_IRQHandler(&htim7);
   /* USER CODE BEGIN TIM7_LPTIM2_IRQn 1 */
-	CC_LEDPWM_SoftPwm_t* 	pCC_LEDPWM_SoftPwm;									//Pointer to strip leds control data
-	pCC_LEDPWM_SoftPwm=&CC_LEDPWM_Strip;
+	CC_LEDPWM_SoftPwm_t* const pCC_LEDPWM_SoftPwm=&CC_LEDPWM_Strip;									//Pointer to strip leds control data
+//	pCC_LEDPWM_SoftPwm=&CC_LEDPWM_Strip;
 
-	CC_LEDPWM_UpdatePwms((void*)pCC_LEDPWM_SoftPwm, (void*)NULL, (void*)NULL);
+	const CC_LED_StripLedFuncts_t* const pCC_LEDPWM_StripsFunctions=&CC_ML_LedsStripsFunctions;
+//	pCC_LEDPWM_StripsFunctions=&CC_ML_LedsStripsFunctions;
+
+//	CC_LEDPWM_UpdatePwms((void*)pCC_LEDPWM_SoftPwm, (void*)NULL, (void*)NULL);
+	CC_LEDPWM_UpdatePwms((void*)pCC_LEDPWM_SoftPwm, (void*)pCC_LEDPWM_StripsFunctions, (void*)NULL);
 	CC_LEDPWM_IncreaseCntr((void*)pCC_LEDPWM_SoftPwm, (void*)NULL, (void*)NULL);
   /* USER CODE END TIM7_LPTIM2_IRQn 1 */
 }

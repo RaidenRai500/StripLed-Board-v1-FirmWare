@@ -76,40 +76,34 @@ void CC_LEDPWM_IncreaseCntr(void* const param1, void* const param2, void* const 
 void CC_LEDPWM_UpdatePwms(void* const param1, void* const param2, void* const param3)
 {
 	const CC_LEDPWM_SoftPwm_t* const pStripData=(CC_LEDPWM_SoftPwm_t*)param1;
-//	const CC_LED_StripLedFuncts_t* const pStripFuncts=(CC_LED_StripLedFuncts_t*)param2;
+	const CC_LED_StripLedFuncts_t* const pStripFuncts=(CC_LED_StripLedFuncts_t*)param2;
 	uint8_t i=0;
 
 	while(i<CC_LEDPWM_TOTALSTRIPS)
 	{
 		if (pStripData->Control.Counter<pStripData->Strip[i].RedCounts)
 		{
-			(*CC_ML_LedsStripsFunctions.pRedLedOnFunction[i])();
-//			(*pStripFuncts->pRedLedOnFunction[i])();
+			(*pStripFuncts->pRedLedOnFunction[i])();
 		}
 		else
 		{
-//			(*pStripFuncts->pRedLedOffFunction[i])();
-			(*CC_ML_LedsStripsFunctions.pRedLedOffFunction[i])();
+			(*pStripFuncts->pRedLedOffFunction[i])();
 		}
 		if (pStripData->Control.Counter<pStripData->Strip[i].GreenCounts)
 		{
-//			(*pStripFuncts->pGreenLedOnFunction[i])();
-			(*CC_ML_LedsStripsFunctions.pGreenLedOnFunction[i])();
+			(*pStripFuncts->pGreenLedOnFunction[i])();
 		}
 		else
 		{
-//			(*pStripFuncts->pGreenLedOffFunction[i])();
-			(*CC_ML_LedsStripsFunctions.pGreenLedOffFunction[i])();
+			(*pStripFuncts->pGreenLedOffFunction[i])();
 		}
 		if (pStripData->Control.Counter<pStripData->Strip[i].BlueCounts)
 		{
-//			(*pStripFuncts->pBlueLedOnFunction[i])();
-			(*CC_ML_LedsStripsFunctions.pBlueLedOnFunction[i])();
+			(*pStripFuncts->pBlueLedOnFunction[i])();
 		}
 		else
 		{
-//			(*pStripFuncts->pBlueLedOffFunction[i])();
-			(*CC_ML_LedsStripsFunctions.pBlueLedOffFunction[i])();
+			(*pStripFuncts->pBlueLedOffFunction[i])();
 		}
 		i++;
 	}

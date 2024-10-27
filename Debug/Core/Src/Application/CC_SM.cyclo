@@ -1,2 +1,1 @@
-../Core/Src/Application/CC_SM.c:31:6:CC_SM_SetColor	2
-../Core/Src/Application/CC_SM.c:42:6:CC_SM_UsartSM	57
+../Core/Src/Application/CC_SM.c:31:6:CC_SM_UsartSM	56

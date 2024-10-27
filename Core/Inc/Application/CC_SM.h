@@ -25,21 +25,15 @@ The code and documentation generated as part of this project are released under 
 	#include "MiddleLayer\CC_ML.h"	//Definitions to work with drivers
 	
 	//CONSTANTS
-	#define TX_BUFF_LENGTH 150
-	#define ONEMILISEC 1
-	#define MESSAGE1 "Welcome to the strip leds control\n\r"
-	#define MESSAGE2 "The application which allows you to control your led lights\n\r"
-	#define MESSAGE3 "Running over the hardware: "
-	#define MESSAGE4 "With a uC: "
-	#define MESSAGE5 "Software version: "
-	#define MESSAGE6 "Board identifier: "
-	#define MESSAGE7 "Please select the color you would like\n\r"
-	#define MESSAGE8 "Red(R)\n\rGreen(G)\n\rBlue(B)\n\rWhite(W)\n\rYellow(Y)\n\rPink(P)\n\rCyan(C)\n\rOff(O)\n\rOr just exit the application(E)\n\r"
-	#define MESSAGE9 "Wrong selection, please try again\n\r"
-	#define MESSAGE10 "Thanks for using our devices\n\rGoodbye!\n\r"
-	#define MESSAGE_RETURN 	"\n\r"
-	#define MESSAGE_TRIPLERETURN 	"\n\r\n\r\n\r"
+	#define TX_BUFF_LENGTH 		150
+	#define ONEMILISEC 			1
+	#define MSG_Y_OR_N			"Yes(Y)\n\rNo(N)\n\r"
+	#define MSG_WRONG_SEL		"\n\rWrong selection, please try again\n\r"
+	#define MSG_RETURN 			"\n\r"
+	#define MSG_DOUBLERETURN 	"\n\r\n\r"
+	#define MSG_TRIPLERETURN 	"\n\r\n\r\n\r"
 
+	//DATA TYPES
 	enum CC_SM_SerialStatesTypedef
 	{
 		UART_SM_START_MSG=0,
@@ -59,7 +53,6 @@ The code and documentation generated as part of this project are released under 
 		UART_SM_OPERATION_REPEAT_MSG,
 		UART_SM_OPERATION_REPEAT,
 		UART_SM_EXIT,
-		UART_SM_STOP,
 	};
 	typedef enum CC_SM_SerialStatesTypedef CC_SM_SerialStatesTypedef;
 
@@ -67,5 +60,7 @@ The code and documentation generated as part of this project are released under 
 
 	//FUNCTIONS PROTOTYPES
 	void CC_SM_UsartSM(void*, void*, void*);
+//	void CC_SM_SetColor(CC_LED_Colors_t RequestedColor);
+
 
 #endif /* INC_CC_SM_H_ */
