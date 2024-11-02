@@ -1,1 +1,5 @@
-../Core/Src/Application/CC_ERR.c:29:6:CC_ERR_SendStatusCan	1
+../Core/Src/Application/CC_ERR.c:29:6:CC_ERR_ErrorSetter	1
+../Core/Src/Application/CC_ERR.c:35:6:CC_ERR_ChechForError	5
+../Core/Src/Application/CC_ERR.c:52:6:CC_ERR_SetBoardLedError	1
+../Core/Src/Application/CC_ERR.c:61:6:CC_ERR_UnsetBoardLedError	1
+../Core/Src/Application/CC_ERR.c:70:6:CC_ERR_SendStatusCan	1

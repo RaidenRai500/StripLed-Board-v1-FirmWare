@@ -23,8 +23,8 @@ The code and documentation generated as part of this project are released under 
 #include <string.h>  				// Include for strncpy()
 
 //GLOBAL VARIABLES DECLARATION
-uint8_t CC_APP_BlinkCnts=CC_APP_LED_INDICATOR_OK_CNTS_BT10MS;	//Variable used to set the board's led blink frequency
-CC_APP_Config_t CC_APP_BoardData;								//Handler with the board's data
+uint8_t CC_APP_BlinkCnts=CC_APP_LED_BOARD_FREQ_DEFAULT;		//Variable used to set the board's led blink frequency.
+CC_APP_Config_t CC_APP_BoardData;							//Board's data
 
 //FUNCTIONS
 void CC_APP_Nop(void* param1, void* param2, void* param3)
@@ -34,11 +34,11 @@ void CC_APP_Nop(void* param1, void* param2, void* param3)
 
 void CC_APP_BoardLedBlinking(void* const param1, void* param2, void* param3)
 {
-	uint8_t TotalCounts;
+	uint8_t TotalCounts;					//Value who defines the frequency
 	static uint8_t counts=0;				//Static var to keep the value between entries.
 
-	TotalCounts=*((uint8_t*)param1);		//Same TotalCounts on and off
-	if(counts<TotalCounts)
+	TotalCounts=*((uint8_t*)param1);
+	if(counts<TotalCounts)					//Same TotalCounts on and off
 	{
 		counts++;
 	}
@@ -54,7 +54,7 @@ void CC_APP_SetBoardParam(CC_APP_Config_t* const SysData)
 	size_t  length;
 
 	length=sizeof(SysData->HwCode);							//Extract the length of the array (already defined like a vector of sizeof(constant to store) length)
-	strncpy(SysData->HwCode,CC_APP_BOARDHWCODE, length);	//Copy the constant string
+	strncpy(SysData->HwCode,CC_APP_BOARDHWCODE, length);	//Stores the "constant" string into the system's struct
 	SysData->HwCode[length-1]='\0';							//Ensures null terminator (to avoid problems)
 
 	length=sizeof(SysData->SwVer);

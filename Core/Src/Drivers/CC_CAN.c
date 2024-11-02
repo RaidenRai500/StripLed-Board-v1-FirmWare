@@ -20,14 +20,15 @@ The code and documentation generated as part of this project are released under 
  */
 //HEADERS
 #include "Drivers\CC_CAN.h"
-#include <string.h>				//Add to use the memcpy funtion
+#include <string.h>				//Add to use the memcpy function
 
 //GLOBAL VARIABLES DECLARATION
-//FDCAN_RxHeaderTypeDef CC_ML_CAN_RxHeader;		//Needs to be declared at the middel-layer .c
-//FDCAN_TxHeaderTypeDef CC_ML_CAN_TxHeader;
 uint8_t CC_CAN_RxData[CC_CAN_RXDATALENGHT];
 uint8_t CC_CAN_TxData[CC_CAN_TXDATALENGHT];
 uint32_t CC_CAN_RxAdress=CC_CAN_RX_ADRESS;
+
+FDCAN_TxHeaderTypeDef CC_CAN_TxHeader;
+FDCAN_RxHeaderTypeDef CC_CAN_RxHeader;
 
 //FUNCTIONS
 inline uint8_t CC_CAN_EnableCANInt(FDCAN_HandleTypeDef *hfdcan, uint32_t ActiveITs,uint32_t BufferIndexes)
@@ -45,27 +46,30 @@ void CC_CAN_SetRxAddress(const uint32_t new_adress)
 	CC_CAN_RxAdress=new_adress;
 }
 
-uint8_t CC_CAN_SendMessage(
-						FDCAN_HandleTypeDef* const pHeaderCan,
-						const FDCAN_TxHeaderTypeDef* const pHeaderTx,
-						const uint8_t* const pdata2send
-						)
+uint8_t CC_CAN_SendMessage
+			(
+			FDCAN_HandleTypeDef* const pHeaderCan,
+			const FDCAN_TxHeaderTypeDef* const pHeaderTx,
+			const uint8_t* const pdata2send
+			)
 {
 	return HAL_FDCAN_AddMessageToTxFifoQ
-	(
-		pHeaderCan,
-		pHeaderTx,
-		pdata2send
-	);
+			(
+			pHeaderCan,
+			pHeaderTx,
+			pdata2send
+			);
 }
 
 void CC_CAN_Init(FDCAN_TxHeaderTypeDef* const txheader )
 {
+
+
 //  txheader->Init.Mode = FDCAN_MODE_BUS_MONITORING;			//Able to receive messages but will not acknowledge them.
 //
+//	//Rx filter configuration
 //	FDCAN_FilterTypeDef sFilterConfig;
 //
-//	//Rx filter configuration
 //	sFilterConfig.IdType = FDCAN_STANDARD_ID;				//Extended identifier
 //	//sFilterConfig.FilterType = FDCAN_FILTER_MASK;			//Accepted Ids are only ID1 and ID2
 //	sFilterConfig.FilterType = FDCAN_FILTER_RANGE;			//Filter range from FilterID1 to FilterID2
@@ -94,12 +98,12 @@ void HAL_FDCAN_RxFifo0Callback(FDCAN_HandleTypeDef* const hfdcan, uint32_t RxFif
 
 	if((RxFifo0ITs&FDCAN_IT_RX_FIFO0_NEW_MESSAGE)!=RESET)
 	{
-		if (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &CC_ML_CAN_RxHeader, GottenData) != HAL_OK)
+		if (HAL_FDCAN_GetRxMessage(hfdcan, FDCAN_RX_FIFO0, &CC_CAN_RxHeader, GottenData) != HAL_OK)
 		{
 			//AFEGIR LOG D'ERRORS? VARIABLE GLOBAL? TRENQUEM LA ABSTRACCIÓ?
 			Error_Handler();
 		}
-		if (CC_ML_CAN_RxHeader.Identifier==CC_CAN_RxAdress)
+		if (CC_CAN_RxHeader.Identifier==CC_CAN_RxAdress)
 		{
 			memcpy(&CC_CAN_RxData,&GottenData, sizeof(GottenData));
 //			CC_CAN_RXPROCESS;

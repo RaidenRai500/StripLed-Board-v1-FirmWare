@@ -40,6 +40,7 @@ The code and documentation generated as part of this project are released under 
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "MiddleLayer\CC_ML.h"
 
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
@@ -67,6 +68,8 @@ FDCAN_HandleTypeDef hfdcan2;
 
 IWDG_HandleTypeDef hiwdg;
 
+RTC_HandleTypeDef hrtc;
+
 TIM_HandleTypeDef htim6;
 TIM_HandleTypeDef htim7;
 TIM_HandleTypeDef htim14;
@@ -86,6 +89,7 @@ static void MX_USART1_UART_Init(void);
 static void MX_TIM6_Init(void);
 static void MX_TIM7_Init(void);
 static void MX_IWDG_Init(void);
+static void MX_RTC_Init(void);
 /* USER CODE BEGIN PFP */
 
 /* USER CODE END PFP */
@@ -130,8 +134,13 @@ int main(void)
   MX_TIM6_Init();
   MX_TIM7_Init();
   MX_IWDG_Init();
+  MX_RTC_Init();
   /* USER CODE BEGIN 2 */
+
   CC_APP_SetBoardParam(&CC_APP_BoardData);						//Board's characteristics and parameters setting
+  CC_ML_InitRTC(&hrtc);											//Init peripheral
+  CC_ML_SetDefaultRTC(&hrtc);									//Set a default date and time to the RTC
+
   //SoftPWM for strip leds initialization
   CC_LEDPWM_Init(&CC_LEDPWM_Strip);	  							//Strip-leds handler initialization
   CC_ML_StartSoftPwmBasetimeAndInterrupts();					//Soft-PWM timer generation initialization
@@ -141,6 +150,7 @@ int main(void)
   CC_ML_StartScheduler();										//Schedulers on
   //Serial receive initialization
   CC_ML_EnableRxIntUart();										//UART Rx interruptions enabled
+  //CAN initialization
   CC_ML_InitCan();												//CAN initialization
   CC_ML_StartCan();												//CAN ready to send
   CC_ML_EnableCanRxInt();										//CAN Rx interruptions enabled
@@ -272,6 +282,43 @@ static void MX_IWDG_Init(void)
   /* USER CODE BEGIN IWDG_Init 2 */
 
   /* USER CODE END IWDG_Init 2 */
+
+}
+
+/**
+  * @brief RTC Initialization Function
+  * @param None
+  * @retval None
+  */
+static void MX_RTC_Init(void)
+{
+
+  /* USER CODE BEGIN RTC_Init 0 */
+
+  /* USER CODE END RTC_Init 0 */
+
+  /* USER CODE BEGIN RTC_Init 1 */
+
+  /* USER CODE END RTC_Init 1 */
+
+  /** Initialize RTC Only
+  */
+  hrtc.Instance = RTC;
+  hrtc.Init.HourFormat = RTC_HOURFORMAT_24;
+  hrtc.Init.AsynchPrediv = 127;
+  hrtc.Init.SynchPrediv = 255;
+  hrtc.Init.OutPut = RTC_OUTPUT_DISABLE;
+  hrtc.Init.OutPutRemap = RTC_OUTPUT_REMAP_NONE;
+  hrtc.Init.OutPutPolarity = RTC_OUTPUT_POLARITY_HIGH;
+  hrtc.Init.OutPutType = RTC_OUTPUT_TYPE_OPENDRAIN;
+  hrtc.Init.OutPutPullUp = RTC_OUTPUT_PULLUP_NONE;
+  if (HAL_RTC_Init(&hrtc) != HAL_OK)
+  {
+    Error_Handler();
+  }
+  /* USER CODE BEGIN RTC_Init 2 */
+
+  /* USER CODE END RTC_Init 2 */
 
 }
 

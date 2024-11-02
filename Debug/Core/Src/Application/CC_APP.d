@@ -29,13 +29,15 @@ Core/Src/Application/CC_APP.o: ../Core/Src/Application/CC_APP.c \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_iwdg.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_pwr.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_pwr_ex.h \
+ ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_rtc.h \
+ ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_rtc_ex.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_tim.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_tim_ex.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_uart.h \
  ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_uart_ex.h \
- ../Core/Inc/main.h ../Core/Inc/MiddleLayer\CC_ML.h \
- ../Core/Inc/Drivers\CC_BOARDLED.h ../Core/Inc/Drivers\CC_CAN.h \
- ../Core/Inc/Drivers\CC_DIPSW.h ../Core/Inc/Drivers\CC_LED.h \
+ ../Core/Inc/main.h ../Core/Inc/Drivers\CC_BOARDLED.h \
+ ../Core/Inc/Drivers\CC_CAN.h ../Core/Inc/Drivers\CC_DIPSW.h \
+ ../Core/Inc/Drivers\CC_LED.h ../Core/Inc/Drivers\CC_RTC.h \
  ../Core/Inc/Drivers\CC_SERIAL.h ../Core/Inc/Drivers\CC_TMR.h \
  ../Core/Inc/Drivers\CC_WATCHDOG.h ../Core/Inc/Application\CC_LEDPWM.h \
  ../Core/Inc/Application\CC_SCHDLR.h ../Core/Inc/Application\CC_SM.h \
@@ -71,16 +73,18 @@ Core/Src/Application/CC_APP.o: ../Core/Src/Application/CC_APP.c \
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_iwdg.h:
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_pwr.h:
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_pwr_ex.h:
+../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_rtc.h:
+../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_rtc_ex.h:
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_tim.h:
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_tim_ex.h:
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_uart.h:
 ../Drivers/STM32G0xx_HAL_Driver/Inc/stm32g0xx_hal_uart_ex.h:
 ../Core/Inc/main.h:
-../Core/Inc/MiddleLayer\CC_ML.h:
 ../Core/Inc/Drivers\CC_BOARDLED.h:
 ../Core/Inc/Drivers\CC_CAN.h:
 ../Core/Inc/Drivers\CC_DIPSW.h:
 ../Core/Inc/Drivers\CC_LED.h:
+../Core/Inc/Drivers\CC_RTC.h:
 ../Core/Inc/Drivers\CC_SERIAL.h:
 ../Core/Inc/Drivers\CC_TMR.h:
 ../Core/Inc/Drivers\CC_WATCHDOG.h:

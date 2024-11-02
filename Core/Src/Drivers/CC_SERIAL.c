@@ -47,7 +47,8 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef* const huart)
 	}
 }
 
-inline uint8_t CC_SERIAL_SendData	(
+inline uint8_t CC_SERIAL_SendData
+							(
 							UART_HandleTypeDef* const huart,
 							const uint8_t* const tx_buffer,
 							const uint16_t Size

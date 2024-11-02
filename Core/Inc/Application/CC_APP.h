@@ -25,10 +25,7 @@ The code and documentation generated as part of this project are released under 
 	#include "MiddleLayer\CC_ML.h"	//Definitions to work with drivers
 
 	//CONSTANTS
-	#define CC_APP_LED_INDICATOR_OK_CNTS_BT1MS 	100			//Counts to get a blinking of 1s with a base time of 10ms. OK state
-	#define CC_APP_LED_INDICATOR_KO_CNTS_BT1MS 	50			//Counts to get a blinking of 0.5s with a base time of 10ms. KO state
-	#define CC_APP_LED_INDICATOR_OK_CNTS_BT10MS	10			//Counts to get a blinking of 1s with a base time of 100ms. OK state
-	#define CC_APP_LED_INDICATOR_KO_CNTS_BT10MS	5			//Counts to get a blinking of 0.5s with a base time of 100ms. KO state
+	#define CC_APP_LED_BOARD_FREQ_DEFAULT 10				//Counts to get a blinking of 1s (1s On - 1s Off) with a base time of 100ms. Default state.
 	#define CC_APP_BOARDHWCODE 		"PR023G.HW.B00_01" 		//Hardware identifier of the board
 	#define CC_APP_FWVER			"CLAP CLAP IND V0.0"	//Software version of the code
 	#define CC_APP_SUMMARY			"Soft PWM control of 10 led-strips. No OS"

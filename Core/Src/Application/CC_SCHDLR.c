@@ -216,7 +216,7 @@ void CC_SCHDLR_InitNestedScheduler(CC_SCHDLR_Scheduler_t* const data)
 	pfunction=&CC_ML_SendMessageCan;							//Task9.4 initialization. Send CAN
 	data->Task2Launch[4].function=(void*)pfunction;
 	pFDCAN_HandleTypeDef=&CC_ML_PERIPHERALS_CAN;
-	pFDCAN_TxHeaderTypeDef=&CC_ML_CAN_TxHeader;
+	pFDCAN_TxHeaderTypeDef=pCC_ML_CAN_TxHeader;
 	puint8=CC_CAN_TxData;
 	data->Task2Launch[4].input_param1=(void*)pFDCAN_HandleTypeDef;
 	data->Task2Launch[4].input_param2=(void*)pFDCAN_TxHeaderTypeDef;

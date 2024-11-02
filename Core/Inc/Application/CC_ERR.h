@@ -35,6 +35,10 @@ The code and documentation generated as part of this project are released under 
 	#define CC_ERR_LOWSIDE_CRITIC_WATCHDOG_TRIG_DIR	0x015;
 	#define C_ERR_ERROR_BITMAP_DIR					0x016
 
+	#define CC_ERR_LED_INDICATOR_OK_BT100MS	10			//Counts to get a blinking of 1s with a base time of 100ms. OK state
+	#define CC_ERR_LED_INDICATOR_KO_BT100MS	5			//Counts to get a blinking of 0.5s with a base time of 100ms. KO state
+	#define CC_ERR_MAX_SCHEDULER_MISS_INT 50
+	#define CC_ERR_MAX_WTCHDOG_TRIGGERS	50
 	//DATA TYPES
 	struct CC_ERR_HighAbstractSideErr_t
 	{
@@ -89,6 +93,11 @@ The code and documentation generated as part of this project are released under 
 	extern CC_ERR_ErrorsData_t CC_ERR_ErrorControl;
 
 	//FUNCTIONS PROTOTYPES
+	void CC_ERR_ChechForError(const CC_ERR_ErrorsData_t*);
+	void CC_ERR_SetBoardLedError(void);
+	void CC_ERR_UnsetBoardLedError(void);
+	void CC_ERR_SendStatusCan(const CC_ERR_ErrorsData_t*);
+
 
 #endif /* INC_APPLICATION_CC_ERR_H_ */
 

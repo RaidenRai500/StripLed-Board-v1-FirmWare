@@ -30,9 +30,11 @@ The code and documentation generated as part of this project are released under 
 	#include "Drivers\CC_CAN.h"
 	#include "Drivers\CC_DIPSW.h"
 	#include "Drivers\CC_LED.h"
+	#include "Drivers\CC_RTC.h"
 	#include "Drivers\CC_SERIAL.h"
 	#include "Drivers\CC_TMR.h"
 	#include "Drivers\CC_WATCHDOG.h"
+
 	//Hide side headers
 	#include "Application\CC_APP.h"
 	#include "Application\CC_LEDPWM.h"
@@ -47,6 +49,7 @@ The code and documentation generated as part of this project are released under 
 	extern TIM_HandleTypeDef htim6;
 	extern TIM_HandleTypeDef htim7;
 	extern IWDG_HandleTypeDef hiwdg;
+	extern RTC_HandleTypeDef hrtc;
 
 	//CONSTANTS
 	//Scheduler
@@ -67,9 +70,9 @@ The code and documentation generated as part of this project are released under 
 	extern uint8_t CC_SERIAL_RxData[];
 	extern const uint8_t* const pCC_ML_SERIAL_DEBUG_RxData;			//Pointer to the UART received data
 	extern const uint8_t* const pCC_ML_CAN_RxData;					//Pointer to CAN's Rx data. Read only.
-	extern FDCAN_TxHeaderTypeDef CC_ML_CAN_TxHeader;				//CAN transmit header
-	extern FDCAN_RxHeaderTypeDef CC_ML_CAN_RxHeader;				//CAN receiver header
-	extern const CC_LED_StripLedFuncts_t CC_ML_LedsStripsFunctions;	//Pointer to the struct with the loaded soft-PWM functions
+	extern FDCAN_TxHeaderTypeDef* pCC_ML_CAN_TxHeader;				//Pointer to CAN transmit header
+	extern FDCAN_RxHeaderTypeDef* pCC_ML_CAN_RxHeader;				//Pointer to CAN receiver header
+//	extern const CC_LED_StripLedFuncts_t CC_ML_LedsStripsFunctions;	//Pointer to the struct with the loaded soft-PWM functions
 
 	//FUNCTIONS PROTOTYPES
 	void CC_ML_StartSoftPwmBasetimeAndInterrupts(void);
@@ -93,6 +96,11 @@ The code and documentation generated as part of this project are released under 
 	void CC_ML_SendUARTString(const char*, UART_HandleTypeDef*);
 	void CC_ML_ClearUARTRxData(void);
 	void CC_ML_LedBoardToggle(void);
+	void CC_ML_SetDefaultRTC(RTC_HandleTypeDef*);
+	void CC_ML_SetRTC(RTC_HandleTypeDef*, const CC_RTC_TimeStamp_t*);
+	void CC_ML_ReadRTC(RTC_HandleTypeDef*, CC_RTC_TimeStamp_t*);
+	void CC_ML_InitRTC(RTC_HandleTypeDef*);
+
 
 
 #endif /* INC_CC_MW_H_ */

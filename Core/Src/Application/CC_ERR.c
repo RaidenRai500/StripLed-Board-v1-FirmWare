@@ -26,86 +26,127 @@ The code and documentation generated as part of this project are released under 
 CC_ERR_ErrorsData_t CC_ERR_ErrorControl ={0};
 
 //FUNCTIONS
+void CC_ERR_ErrorSetter()
+{
+
+}
+
+
+void CC_ERR_ChechForError(const CC_ERR_ErrorsData_t* const pErrorData)
+{
+	if	(
+		(pErrorData->BitMap.all)||
+		(pErrorData->LowSide.CriticWatchdogTriggers)||
+		(pErrorData->HighSide.CriticShedulerMissInt)||
+		(pErrorData->HighSide.CriticPwmBaseMissInt)
+		)
+	{
+		CC_ERR_SetBoardLedError();
+	}
+	else
+	{
+		CC_ERR_UnsetBoardLedError();
+	}
+}
+
+void CC_ERR_SetBoardLedError(void)
+//It must be taken into account that the board blink is a task launched at the
+//nested schedule, and its frequency is set at the first parameter.
+{
+	uint8_t time=CC_ERR_LED_INDICATOR_KO_BT100MS;
+	const uint8_t* const puint8=&time;
+	CC_SCHDLR_NestedScheduler.Task2Launch[0].input_param1=(void*)puint8;
+}
+
+void CC_ERR_UnsetBoardLedError(void)
+//It must be taken into account that the board blink is a task launched at the
+//nested schedule, and its frequency is set at the first parameter.
+{
+	uint8_t time=CC_ERR_LED_INDICATOR_OK_BT100MS;
+	const uint8_t* const puint8=&time;
+	CC_SCHDLR_NestedScheduler.Task2Launch[0].input_param1=(void*)puint8;
+}
+
 void CC_ERR_SendStatusCan(const CC_ERR_ErrorsData_t* const pErrorData)
 {
 	uint8_t Data2Send[CC_CAN_TXDATALENGHT]={0};
 	uint32_t PreviousCanId;
 
-	PreviousCanId = CC_ML_CAN_TxHeader.Identifier;				//Saving the CAN's identifier
+	PreviousCanId = pCC_ML_CAN_TxHeader->Identifier;				//Saving the CAN's identifier
 
 	//Sending high abstraction layer errors
-	CC_ML_CAN_TxHeader.Identifier=CC_ERR_HIGHSIDE_PWM_BASE_MISS_INT_DIR;	//Message id.
+	pCC_ML_CAN_TxHeader->Identifier=CC_ERR_HIGHSIDE_PWM_BASE_MISS_INT_DIR;	//Message id.
 	Data2Send[3]=(pErrorData->HighSide.PwmBaseMissInt>>24)&0xFF;		//Chopping information to be sent by CAN
 	Data2Send[2]=(pErrorData->HighSide.PwmBaseMissInt>>16)&0xFF;		//32 bits data to be sent thru 8 bit vector
 	Data2Send[1]=(pErrorData->HighSide.PwmBaseMissInt>>8)&0xFF;
 	Data2Send[0]=pErrorData->HighSide.PwmBaseMissInt&&0xFF;
 	CC_ML_SendMessageCan(
 						(void*)(&CC_ML_PERIPHERALS_CAN),
-						(void*)(&CC_ML_CAN_TxHeader),
+						(void*)(pCC_ML_CAN_TxHeader),
 						(void*)(Data2Send)
 						);
-	CC_ML_CAN_TxHeader.Identifier=CC_ERR_HIGHSIDE_SCHEDULER_MISS_INT_DIR;	//Message id.
+	pCC_ML_CAN_TxHeader->Identifier=CC_ERR_HIGHSIDE_SCHEDULER_MISS_INT_DIR;	//Message id.
 	Data2Send[3]=(pErrorData->HighSide.SchedulerMissInt>>24)&0xFF;		//Chopping information to be sent by CAN
 	Data2Send[2]=(pErrorData->HighSide.SchedulerMissInt>>16)&0xFF;		//32 bit data
 	Data2Send[1]=(pErrorData->HighSide.SchedulerMissInt>>8)&0xFF;
 	Data2Send[0]=pErrorData->HighSide.SchedulerMissInt&&0xFF;
 	CC_ML_SendMessageCan(
 						(void*)(&CC_ML_PERIPHERALS_CAN),
-						(void*)(&CC_ML_CAN_TxHeader),
+						(void*)(pCC_ML_CAN_TxHeader),
 						(void*)(Data2Send)
 						);
-	CC_ML_CAN_TxHeader.Identifier=CC_ERR_HIGHSIDE_CRITIC_PWM_MISS_INT;		//Message id.
+	pCC_ML_CAN_TxHeader->Identifier=CC_ERR_HIGHSIDE_CRITIC_PWM_MISS_INT;		//Message id.
 	Data2Send[3]=0;														//Cleaning the buffer
 	Data2Send[2]=0;														//8 bit data
 	Data2Send[1]=0;
 	Data2Send[0]=pErrorData->HighSide.CriticPwmBaseMissInt;
 	CC_ML_SendMessageCan(
 						(void*)(&CC_ML_PERIPHERALS_CAN),
-						(void*)(&CC_ML_CAN_TxHeader),
+						(void*)(pCC_ML_CAN_TxHeader),
 						(void*)(Data2Send)
 						);
-	CC_ML_CAN_TxHeader.Identifier=CC_ERR_HIGHSIDE_CRITIC_SCHED_MISS_INT;	//Message id.
+	pCC_ML_CAN_TxHeader->Identifier=CC_ERR_HIGHSIDE_CRITIC_SCHED_MISS_INT;	//Message id.
 	Data2Send[3]=0;														//Cleaning the buffer
 	Data2Send[2]=0;														//8 bit data
 	Data2Send[1]=0;
 	Data2Send[0]=pErrorData->HighSide.CriticShedulerMissInt;
 	CC_ML_SendMessageCan(
 						(void*)(&CC_ML_PERIPHERALS_CAN),
-						(void*)(&CC_ML_CAN_TxHeader),
+						(void*)(pCC_ML_CAN_TxHeader),
 						(void*)(Data2Send)
 						);
 	//Sending low abstraction layer errors
-	CC_ML_CAN_TxHeader.Identifier=CC_ERR_LOWSIDE_WATCHDOG_TRIGGERS_DIR;	//Message id.
+	pCC_ML_CAN_TxHeader->Identifier=CC_ERR_LOWSIDE_WATCHDOG_TRIGGERS_DIR;	//Message id.
 	Data2Send[3]=(pErrorData->LowSide.WatchdogTriggersCount>>24)&0xFF;	//Chopping information to be sent by CAN
 	Data2Send[2]=(pErrorData->LowSide.WatchdogTriggersCount>>16)&0xFF;	//32 bit data
 	Data2Send[1]=(pErrorData->LowSide.WatchdogTriggersCount>>8)&0xFF;
 	Data2Send[0]=pErrorData->LowSide.WatchdogTriggersCount&&0xFF;
 	CC_ML_SendMessageCan(
 						(void*)(&CC_ML_PERIPHERALS_CAN),
-						(void*)(&CC_ML_CAN_TxHeader),
+						(void*)(pCC_ML_CAN_TxHeader),
 						(void*)(NULL)
 						);
-	CC_ML_CAN_TxHeader.Identifier=CC_ERR_LOWSIDE_CRITIC_WATCHDOG_TRIG_DIR;	//Message id.
+	pCC_ML_CAN_TxHeader->Identifier=CC_ERR_LOWSIDE_CRITIC_WATCHDOG_TRIG_DIR;	//Message id.
 	Data2Send[3]=0;														//Cleaning the buffer
 	Data2Send[2]=0;														//8 bit data
 	Data2Send[1]=0;
 	Data2Send[0]=pErrorData->LowSide.CriticWatchdogTriggers;
 	CC_ML_SendMessageCan(
 						(void*)(&CC_ML_PERIPHERALS_CAN),
-						(void*)(&CC_ML_CAN_TxHeader),
+						(void*)(pCC_ML_CAN_TxHeader),
 						(void*)(Data2Send)
 						);
-	CC_ML_CAN_TxHeader.Identifier=C_ERR_ERROR_BITMAP_DIR;					//Message id.
+	pCC_ML_CAN_TxHeader->Identifier=C_ERR_ERROR_BITMAP_DIR;					//Message id.
 	Data2Send[3]=(pErrorData->BitMap.all>>24)&0xFF;														//Cleaning the buffer
 	Data2Send[2]=(pErrorData->BitMap.all>>16)&0xFF;														//8 bit data
 	Data2Send[1]=(pErrorData->BitMap.all>>8)&0xFF;
 	Data2Send[0]=pErrorData->BitMap.all&0xFF;
 	CC_ML_SendMessageCan(
 						(void*)(&CC_ML_PERIPHERALS_CAN),
-						(void*)(&CC_ML_CAN_TxHeader),
+						(void*)(pCC_ML_CAN_TxHeader),
 						(void*)(Data2Send)
 						);
-	CC_ML_CAN_TxHeader.Identifier=PreviousCanId;	//Restore the CAN's identifier
+	pCC_ML_CAN_TxHeader->Identifier=PreviousCanId;	//Restore the CAN's identifier
 }
 
 //void CC_ERR_SendStatus32bits()

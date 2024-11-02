@@ -39,6 +39,8 @@ The code and documentation generated as part of this project are released under 
 	extern uint8_t CC_CAN_RxData[CC_CAN_RXDATALENGHT];	//CAN receiving data
 	extern uint8_t CC_CAN_TxData[CC_CAN_TXDATALENGHT]; 	//CAN sending data
 	extern uint32_t CC_CAN_RxAdress;
+	extern FDCAN_TxHeaderTypeDef CC_CAN_TxHeader;
+	extern FDCAN_RxHeaderTypeDef CC_CAN_RxHeader;
 
 	//FUNCTIONS PROTOTYPES
 	void CC_CAN_Init(FDCAN_TxHeaderTypeDef*);

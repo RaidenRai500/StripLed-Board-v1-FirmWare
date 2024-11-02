@@ -42,6 +42,8 @@ The code and documentation generated as part of this project are released under 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
 #include "stm32g0xx_it.h"
+#include "MiddleLayer\CC_ML.h"
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 //#include "Application\CC_SCHDLR.h"
@@ -233,8 +235,7 @@ void TIM14_IRQHandler(void)
 	CC_SCHDLR_Scheduler(((void*)&CC_SCHDLR_MainScheduler), (void*)NULL, (void*)NULL);
 	CC_ML_StopTimer(&CC_ML_SCHEDULER_CHRONO_HANDLER);
 	CC_SCHDLR_SchedulerUsage(&CC_SCHDLR_MainSchedulerUsage, current_task); 	//Keep in mind that the scheduler update the current task, so it needs to work with non-updated current task
-	CC_ML_SetTimer(&CC_ML_SCHEDULER_CHRONO_HANDLER, 0);
-	//	CC_TMR_SetTimer(&CC_ML_SCHEDULER_CHRONO_HANDLER, 0);				//Reset counter timer used to calculate the task's usage
+	CC_ML_SetTimer(&CC_ML_SCHEDULER_CHRONO_HANDLER, 0);						//Reset counter timer used to calculate the task's usage
 
   /* USER CODE END TIM14_IRQn 1 */
 }

@@ -26,8 +26,8 @@ The code and documentation generated as part of this project are released under 
 
 //GLOBAL VARIABLES DECLARATION
 	//CC_CAN
-FDCAN_RxHeaderTypeDef CC_ML_CAN_RxHeader;																//CAN receiver header
-FDCAN_TxHeaderTypeDef CC_ML_CAN_TxHeader;
+FDCAN_RxHeaderTypeDef* pCC_ML_CAN_RxHeader=&CC_CAN_RxHeader;																//CAN receiver header
+FDCAN_TxHeaderTypeDef* pCC_ML_CAN_TxHeader=&CC_CAN_TxHeader;
 const uint8_t* const pCC_ML_CAN_RxData=CC_CAN_RxData;					//Pointer to CAN's Rx data. Read only.
 	//CC_SERIAL
 const uint8_t* const pCC_ML_SERIAL_DEBUG_RxData=CC_SERIAL_RxData;		//Pointer to Rx data. Read only
@@ -169,6 +169,7 @@ void CC_ML_ClearUARTRxData(void)
 {
 	CC_SERIAL_RxData[0]='\0';
 }
+
 void CC_ML_EnableRxIntUart(void)
 {
 	uint8_t error=0;
@@ -187,8 +188,9 @@ void CC_ML_EnableRxIntUart(void)
 //CC_CAN
 void CC_ML_InitCan(void)
 {
-	CC_CAN_Init(&CC_ML_CAN_TxHeader);
+	CC_CAN_Init(pCC_ML_CAN_TxHeader);
 }
+
 void CC_ML_StartCan(void)
 {
 	uint8_t error=0;
@@ -199,6 +201,7 @@ void CC_ML_StartCan(void)
 		//TRACTAMENT D'ERRORS AQUÍ
 	}
 }
+
 void CC_ML_EnableCanRxInt(void)
 {
 	uint8_t error=0;
@@ -213,6 +216,7 @@ void CC_ML_EnableCanRxInt(void)
 		//TRACTAMENT D'ERRORS AQUÍ
 	}
 }
+
 void CC_ML_SendMessageCan(void* param1, void* param2, void* param3)
 {
 	FDCAN_HandleTypeDef* pHandlerCan;
@@ -229,6 +233,7 @@ void CC_ML_SendMessageCan(void* param1, void* param2, void* param3)
 		//TRACTAMENT D'ERRORS AQUÍ
 	}
 }
+
 void CC_ML_SetCanRxAdress(void* param1, void* param2, void* param3)
 {
 	const uint32_t* const pAdress=(uint32_t*)param1;
@@ -243,6 +248,7 @@ void CC_ML_GetDipSwitch4pos(void* pdata, void* param2, void* param3)
 
 	CC_DIPSW_GetDipSwitch4pos(pDipSwitch);
 }
+
 void CC_ML_UpdateSysIdFromDipSwitch(void* BoardData, void* DipSwData, void*)
 {
 	CC_APP_Config_t* pBoardData=(CC_APP_Config_t*)BoardData;		//Input parameters castings
@@ -256,37 +262,41 @@ uint32_t CC_ML_GetTimerElapsedCounts(const TIM_HandleTypeDef* const ptimer_heade
 {
 	return CC_TMR_GetElapsedCounts(ptimer_header);
 }
+
 uint32_t CC_ML_GetTimerLimitCounts(const TIM_HandleTypeDef* const ptimer_header)
 {
 	return 	CC_TMR_GetLimitCounts(ptimer_header);
 }
-void CC_ML_StartTimer(TIM_HandleTypeDef* htim)
+
+void CC_ML_StartTimer(TIM_HandleTypeDef* phtim)
 {
 	uint8_t error=0;
 
-	error=CC_TMR_StartTimer(htim);
+	error=CC_TMR_StartTimer(phtim);
     if(error!=0)
     	{
     		//TRACTAMENT D'ERRORS AQUÍ
     	}
 }
-void CC_ML_StopTimer(TIM_HandleTypeDef* htim)
+
+void CC_ML_StopTimer(TIM_HandleTypeDef* const phtim)
 {
 	uint8_t error=0;
 
-	error=CC_TMR_StopTimer(htim);
+	error=CC_TMR_StopTimer(phtim);
     if(error!=0)
     	{
     		//TRACTAMENT D'ERRORS AQUÍ
     	}
 }
-void CC_ML_SetTimer(TIM_HandleTypeDef* htim, uint32_t counts)
+void CC_ML_SetTimer(TIM_HandleTypeDef* const phtim, uint32_t counts)
 {
-	CC_TMR_SetTimer(htim, counts);
+	CC_TMR_SetTimer(phtim, counts);
 }
-uint8_t CC_ML_CheckTimIntFlag(const TIM_HandleTypeDef* const htim)
+
+uint8_t CC_ML_CheckTimIntFlag(const TIM_HandleTypeDef* const phtim)
 {
-	return CC_TMR_CheckTimIntFlag(htim);
+	return CC_TMR_CheckTimIntFlag(phtim);
 }
 
 //CC_BOARDLED
@@ -295,4 +305,47 @@ void CC_ML_LedBoardToggle(void)
 	CC_BOARDLED_Led1Toggle();
 }
 
+//CC_RTC
+void CC_ML_SetDefaultRTC(RTC_HandleTypeDef* const phrtc)
+{
+	uint8_t error=0;
 
+	error=CC_RTC_SetDefaultTimeAndDate(phrtc);
+    if(error!=0)
+    	{
+    		//TRACTAMENT D'ERRORS AQUÍ
+    	}
+}
+
+void CC_ML_SetRTC(RTC_HandleTypeDef* const phrtc, const CC_RTC_TimeStamp_t* const pData)
+{
+	uint8_t error=0;
+
+	error=CC_RTC_SetTimeAndDate(phrtc, pData);
+	if(error!=0)
+	    	{
+	    		//TRACTAMENT D'ERRORS AQUÍ
+	    	}
+}
+
+void CC_ML_ReadRTC(RTC_HandleTypeDef* const phrtc, CC_RTC_TimeStamp_t* const pData)
+{
+	uint8_t error=0;
+
+	error=CC_RTC_ReadTimeAndDate(phrtc, pData);
+	if(error!=0)
+	    	{
+	    		//TRACTAMENT D'ERRORS AQUÍ
+	    	}
+}
+
+void CC_ML_InitRTC(RTC_HandleTypeDef* const phrtc)
+{
+	uint8_t error=0;
+
+	error=CC_RTC_Init(phrtc);
+	if(error!=0)
+	    	{
+	    		//TRACTAMENT D'ERRORS AQUÍ
+	    	}
+}

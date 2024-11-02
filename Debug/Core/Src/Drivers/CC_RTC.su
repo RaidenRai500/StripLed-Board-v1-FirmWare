@@ -1,0 +1,4 @@
+../Core/Src/Drivers/CC_RTC.c:28:9:CC_RTC_ReadTimeAndDate	48	static
+../Core/Src/Drivers/CC_RTC.c:49:9:CC_RTC_SetTimeAndDate	48	static
+../Core/Src/Drivers/CC_RTC.c:73:9:CC_RTC_SetDefaultTimeAndDate	32	static
+../Core/Src/Drivers/CC_RTC.c:86:9:CC_RTC_Init	16	static

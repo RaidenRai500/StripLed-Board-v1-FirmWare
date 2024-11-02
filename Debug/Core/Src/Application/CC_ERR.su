@@ -1,1 +1,5 @@
-../Core/Src/Application/CC_ERR.c:29:6:CC_ERR_SendStatusCan	40	static
+../Core/Src/Application/CC_ERR.c:29:6:CC_ERR_ErrorSetter	8	static
+../Core/Src/Application/CC_ERR.c:35:6:CC_ERR_ChechForError	16	static
+../Core/Src/Application/CC_ERR.c:52:6:CC_ERR_SetBoardLedError	16	static
+../Core/Src/Application/CC_ERR.c:61:6:CC_ERR_UnsetBoardLedError	16	static
+../Core/Src/Application/CC_ERR.c:70:6:CC_ERR_SendStatusCan	40	static
